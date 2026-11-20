@@ -52,48 +52,68 @@
   let who = 'linhe';
   el.dataset.who = who;
 
-  function at(h) {
-    const d = Math.floor(h / 24), t = h % 24;
-    for (const b of S[who]) if (b[0] === d && t >= b[1] && t < b[2]) return b;
-    const sleeping = t < 7 || t >= 23;
-    return [d, t, t + 1, 'dorm', sleeping ? '睡觉' : '吃饭、休息', 0, B.sleep];
-  }
 
-  function bars() {
-    const host = $('wk-bars');
-    const per = DAYS.map((_, d) => {
-      let a = 0, b = 0;
-      for (const s of S[who]) if (s[0] === d) (s[5] ? (b += s[2] - s[1]) : (a += s[2] - s[1]));
-      return { a, b };
+  // These schedules never change while scrubbing: compute them once.
+  const cache = Object.fromEntries(Object.entries(S).map(([person, blocks]) => {
+    const hours = Array.from({length: 168}, (_, h) => {
+      const d = Math.floor(h / 24), t = h % 24;
+      return blocks.find(b => b[0] === d && t >= b[1] && t < b[2]) ||
+        [d, t, t + 1, 'dorm', t < 7 || t >= 23 ? '睡觉' : '吃饭、休息', 0, B.sleep];
     });
-    const max = 14;
-    const today = Math.floor(+range.value / 24);
-    host.innerHTML = per.map((p, d) => `<div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%">
-      <i class="sec2 ${d === today ? 'today' : ''}" style="height:${p.b / max * 52}px" title="第二张课表 ${p.b} 小时"></i>
-      <i style="height:${p.a / max * 52}px" title="主修 ${p.a} 小时"></i>
-      <span>${DAYS[d].slice(1)}</span></div>`).join('');
-    $('wk-sum').textContent = S[who].reduce((s, b) => s + (b[5] ? b[2] - b[1] : 0), 0);
-  }
-
-  function render() {
-    const h = +range.value;
-    const b = at(h);
-    $('wk-day').textContent = DAYS[Math.floor(h / 24)];
-    $('wk-clock').textContent = String(h % 24).padStart(2, '0') + ':00';
-    $('wk-place').textContent = ROOM[b[3]] + (b[5] ? ' · 第二张课表' : '');
-    $('wk-act').textContent = b[4];
-    $('wk-basis').textContent = b[6] === '—' ? '' : '依据：' + b[6];
-    el.querySelectorAll('.room').forEach(r => r.classList.toggle('on', r.dataset.room === b[3]));
-    bars();
-  }
-
-  range.addEventListener('input', render);
-  el.querySelectorAll('.week-tabs button').forEach(btn => btn.addEventListener('click', () => {
-    who = btn.dataset.who;
-    el.dataset.who = who;
-    el.querySelectorAll('.week-tabs button').forEach(o => o.classList.toggle('on', o === btn));
-    render();
-    if (window.refreshScroll) window.refreshScroll();
+    const per = DAYS.map((_, d) => blocks.filter(b => b[0] === d).reduce((v, b) => {
+      v[b[5] ? 'b' : 'a'] += b[2] - b[1]; return v;
+    }, {a: 0, b: 0}));
+    return [person, {hours, per, sum: per.reduce((s, p) => s + p.b, 0)}];
   }));
-  render();
+  const fields = Object.fromEntries(['day', 'clock', 'place', 'act', 'basis', 'sum'].map(k => [k, $('wk-' + k)]));
+  const rooms = [...el.querySelectorAll('.room')], buttons = [...el.querySelectorAll('.week-tabs button')];
+  const host = $('wk-bars');
+  host.innerHTML = DAYS.map(d => `<div class="day-bar"><i class="sec2"></i><i class="primary"></i><span>${d.slice(1)}</span></div>`).join('');
+  const dayBars = [...host.children];
+  const days = document.createElement('div');
+  days.className = 'week-days'; days.setAttribute('role', 'group'); days.setAttribute('aria-label', '跳到星期');
+  days.innerHTML = DAYS.map((d, i) => `<button type="button" data-day="${i}" aria-pressed="false">${d}</button>`).join('');
+  range.after(days);
+  days.addEventListener('click', e => {
+    const btn = e.target.closest('button'); if (!btn) return;
+    range.value = +btn.dataset.day * 24 + (+range.value % 24); render();
+  });
+  function text(el, value) { if (el.textContent !== String(value)) el.textContent = value; }
+  function bars() {
+    cache[who].per.forEach((p, d) => {
+      const [second, primary] = dayBars[d].children;
+      second.style.height = p.b / 14 * 52 + 'px';
+      primary.style.height = p.a / 14 * 52 + 'px';
+      dayBars[d].setAttribute('aria-label', `${DAYS[d]}：第二张课表 ${p.b} 小时，主修及其他安排 ${p.a} 小时`);
+    });
+    text(fields.sum, cache[who].sum);
+  }
+  let previousDay = -1, previousRoom = '', queued = false;
+  function render() {
+    const h = +range.value, d = Math.floor(h / 24), b = cache[who].hours[h];
+    text(fields.day, DAYS[d]); text(fields.clock, String(h % 24).padStart(2, '0') + ':00');
+    text(fields.place, ROOM[b[3]] + (b[5] ? ' · 第二张课表' : ''));
+    text(fields.act, b[4]); text(fields.basis, b[6] === '—' ? '' : '依据：' + b[6]);
+    range.setAttribute('aria-valuetext', `${DAYS[d]} ${h % 24}点，${b[4]}`);
+    if (previousRoom !== b[3]) {
+      rooms.forEach(r => r.classList.toggle('on', r.dataset.room === b[3])); previousRoom = b[3];
+    }
+    if (previousDay !== d) {
+      dayBars.forEach((bar, i) => bar.firstElementChild.classList.toggle('today', i === d));
+      [...days.children].forEach((btn, i) => btn.setAttribute('aria-pressed', String(i === d)));
+      previousDay = d;
+    }
+  }
+  range.addEventListener('input', () => {
+    if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; render(); }); }
+  });
+  buttons.forEach(btn => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.who === who));
+    btn.addEventListener('click', () => {
+      who = btn.dataset.who; el.dataset.who = who;
+      buttons.forEach(o => { o.classList.toggle('on', o === btn); o.setAttribute('aria-pressed', String(o === btn)); });
+      bars(); render(); window.refreshScroll?.();
+    });
+  });
+  bars(); render();
 })();

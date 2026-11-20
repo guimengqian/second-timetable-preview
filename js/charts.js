@@ -1,426 +1,221 @@
-/* 全部图表（d3）。数据：assets/data/story.json（由 tools/build_data.py 生成） */
+/* Responsive D3 charts. Marks render once; scrolling never redraws them. */
 (function () {
-  const C = { chalk: '#e8edf1', ink: '#c9d3db', blue: '#7fa3b5', blueD: '#4f7385', coral: '#c96b6b', coralL: '#e7a9a4', navy: '#142232', yellow: '#f3e3a0', grid: 'rgba(232,237,241,.18)' };
-  const tip = document.createElement('div');
-  tip.className = 'tip';
-  document.body.appendChild(tip);
-  const showTip = (ev, html) => {
-    tip.innerHTML = html;
-    tip.classList.add('show');
-    const x = Math.min(ev.clientX + 14, innerWidth - tip.offsetWidth - 10);
-    const y = Math.min(ev.clientY + 14, innerHeight - tip.offsetHeight - 10);
-    tip.style.left = x + 'px';
-    tip.style.top = y + 'px';
-  };
-  const hideTip = () => tip.classList.remove('show');
-  const bindTip = (sel, fn) => sel.on('mousemove', (ev, d) => showTip(ev, fn(d))).on('mouseleave', hideTip)
-    .on('touchstart', (ev, d) => { showTip(ev.touches[0], fn(d)); }, { passive: true });
-  const pct = (a, b) => Math.round(a / b * 100) + '%';
-  // 粉笔质感滤镜（每个 svg 内注入一次）
-  const chalkDefs = svg => {
-    const f = svg.append('defs').append('filter').attr('id', 'chk' + Math.random().toString(36).slice(2, 7));
-    f.append('feTurbulence').attr('type', 'fractalNoise').attr('baseFrequency', 0.9).attr('numOctaves', 1).attr('result', 'g');
-    f.append('feColorMatrix').attr('in', 'g').attr('type', 'matrix').attr('values', '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.2 1.35').attr('result', 'm');
-    f.append('feComposite').attr('in', 'SourceGraphic').attr('in2', 'm').attr('operator', 'in');
-    return `url(#${f.attr('id')})`;
-  };
-  // 只在进入视口时绘制，配合入场动画
-  const whenVisible = (el, fn) => {
-    const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); fn(); } }, { rootMargin: '0px 0px -15% 0px' });
-    io.observe(el);
-  };
-
-  fetch('assets/data/story.json').then(r => r.json()).then(D => {
-    window.STORY = D;
-    draw('#c-cut16', cut16, D);
-    draw('#c-moe', moe, D);
-    draw('#c-0503', moe0503, D);
-    draw('#c-circles', circles, D);
-    draw('#c-skills', skills, D);
-    draw('#c-majors', majors, D);
-    draw('#c-cost', cost, D);
-    draw('#c-seats', seats, D);
-    draw('#c-minor', minor, D);
-    draw('#c-cuc6', cuc6, D);
-    bubbles(D);
-    if (window.refreshScroll) window.refreshScroll();
-  });
-
-  function draw(sel, fn, D) {
-    const el = document.querySelector(sel);
-    if (!el) return;
-    whenVisible(el, () => fn(el, D));
+  const C = {chalk:'#e8edf1', ink:'#c9d3db', blue:'#7fa3b5', blueD:'#4f7385', coral:'#c96b6b', coralL:'#e7a9a4', navy:'#142232', grid:'rgba(232,237,241,.18)'};
+  const tip = document.createElement('div'); tip.className = 'tip'; tip.id = 'chart-tooltip'; tip.setAttribute('role', 'tooltip'); document.body.append(tip);
+  let tipTarget = null;
+  const hideTip = () => { tip.classList.remove('show'); tipTarget?.removeAttribute('aria-describedby'); tipTarget = null; };
+  function showTip(ev, html, node) {
+    hideTip(); tipTarget = node; tip.innerHTML = html; tip.classList.add('show');
+    node.setAttribute('aria-describedby', tip.id);
+    const r = node.getBoundingClientRect(), box = tip.getBoundingClientRect();
+    const x = ev.clientX || (r.left + r.width / 2), y = ev.clientY || r.top;
+    tip.style.left = Math.max(10, Math.min(x + 12, document.documentElement.clientWidth - box.width - 10)) + 'px';
+    tip.style.top = Math.max(10, Math.min(y + 16, innerHeight - box.height - 10)) + 'px';
   }
-
-  // ------------------------------------------------------------ 中传16个专业
-  function cut16(el, D) {
-    const g = D.cuc_cut16;
-    const groups = g.groups.map(([name, how, items, n]) => ({ name, how, items, n, kind: 'cut' }))
-      .concat([{ name: '另一端：新增', how: '2024年度教育部备案 / 审批', items: g.added, n: g.added.length, kind: 'add' }]);
-    const W = 640, cw = 116, ch = 40, gap = 8, cols = 5;
-    let y = 0;
-    const rows = groups.map(gr => { const r = { ...gr, y }; y += 44 + Math.ceil(gr.items.length / cols) * (ch + gap) + 18; return r; });
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${y}`);
-    const flt = chalkDefs(svg);
-    const colors = ['#c96b6b', '#a65a5a', '#d58e86', C.blue];
-    rows.forEach((gr, gi) => {
-      const G = svg.append('g').attr('transform', `translate(0,${gr.y})`);
-      G.append('text').attr('x', 0).attr('y', 22).attr('fill', C.chalk).attr('font-size', 30).attr('font-weight', 700).text(gr.n);
-      G.append('text').attr('x', 44).attr('y', 14).attr('fill', C.chalk).attr('font-size', 15).text(gr.name);
-      G.append('text').attr('x', 44).attr('y', 33).attr('fill', C.blue).attr('font-size', 12).text(gr.how);
-      gr.items.forEach((it, i) => {
-        const x = (i % cols) * (cw + gap), yy = 44 + Math.floor(i / cols) * (ch + gap);
-        const unnamed = it.includes('未列名');
-        const cell = G.append('g').attr('transform', `translate(${x},${yy})`).style('opacity', 0);
-        cell.append('rect').attr('width', cw).attr('height', ch).attr('rx', 3)
-          .attr('fill', unnamed ? 'none' : colors[gi]).attr('fill-opacity', .85)
-          .attr('stroke', C.chalk).attr('stroke-dasharray', unnamed ? '4 3' : null).attr('stroke-opacity', unnamed ? .7 : 0)
-          .attr('filter', flt);
-        cell.append('text').attr('x', cw / 2).attr('y', ch / 2 + 5).attr('text-anchor', 'middle').attr('fill', '#fff').attr('font-size', it.length > 7 ? 11 : 13).text(it);
-        cell.transition().delay(gi * 250 + i * 60).duration(500).style('opacity', 1);
-      });
+  function bindTip(sel, fn) {
+    sel.attr('tabindex', 0).attr('role', 'graphics-symbol').attr('aria-label', d => fn(d).replace(/<br\s*\/?\s*>/g, '，').replace(/<[^>]*>/g, ''))
+      .on('pointerenter', function(ev,d) { if(ev.pointerType !== 'touch') showTip(ev,fn(d),this); })
+      .on('pointerleave', ev => { if(ev.pointerType !== 'touch') hideTip(); })
+      .on('click', function(ev,d) { showTip(ev,fn(d),this); })
+      .on('focus', function(ev,d) { showTip(ev,fn(d),this); }).on('blur',hideTip)
+      .on('keydown', function(ev,d) { if(ev.key==='Enter'||ev.key===' ') {ev.preventDefault(); showTip(ev,fn(d),this);} });
+    return sel;
+  }
+  addEventListener('scroll',hideTip,{passive:true});
+  addEventListener('resize',hideTip,{passive:true});
+  document.addEventListener('pointerdown',e=>{if(tipTarget&&!tipTarget.contains(e.target))hideTip();},{passive:true});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hideTip();});
+  const pct = (a,b) => Math.round(a/b*100)+'%';
+  const small = W => W < 540;
+  function svg(el,W,H) {
+    return d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('width',W).attr('height',H).attr('role','group').attr('aria-label',el.closest('figure').querySelector('figcaption b').textContent);
+  }
+  function text(g,x,y,value,size=13,color=C.ink,anchor='start') {
+    return g.append('text').attr('x',x).attr('y',y).attr('fill',color).attr('font-size',size).attr('text-anchor',anchor).text(value);
+  }
+  function wrap(g,x,y,value,width,size=13,color=C.ink) {
+    const cap=Math.max(1,Math.floor(width/size)), lines=[];
+    for(let i=0;i<value.length;i+=cap)lines.push(value.slice(i,i+cap));
+    const t=text(g,x,y,'',size,color);
+    lines.forEach((line,i)=>t.append('tspan').attr('x',x).attr('dy',i?size*1.5:0).text(line));
+    return lines.length*size*1.5;
+  }
+  function rect(g,x,y,w,h,c) {return g.append('rect').attr('x',x).attr('y',y).attr('width',Math.max(0,w)).attr('height',h).attr('fill',c);}
+  function legend(g,items,W,y,size=12) {
+    let x=0,row=0;
+    items.forEach(([label,color])=>{
+      const width=label.length*size+30;
+      if(x&&x+width>W){x=0;row++;}
+      rect(g,x,y+row*24,11,11,color);text(g,x+17,y+10+row*24,label,size);x+=width;
     });
   }
 
-  // ------------------------------------------------------------ 全国专业点调整
-  function moe(el, D) {
-    const m = D.moe_2024;
-    const rows = [
-      { k: '停招专业点', v: m['停招'], c: C.coral },
-      { k: '撤销专业点', v: m['撤销'], c: C.coral },
-      { k: '新增专业点', v: m['新增'], c: C.blue },
-      { k: '调整门类或年限', v: m['调整门类或年限'], c: 'rgba(232,237,241,.45)' },
+  function cut16(el,D,W) {
+    const groups=D.cuc_cut16.groups.map(([name,how,items,n])=>({name,how,items,n})).concat([{name:'另一端：新增',how:'2024年度教育部备案 / 审批',items:D.cuc_cut16.added,n:D.cuc_cut16.added.length}]);
+    const cols=small(W)?2:5,gap=8,cw=(W-gap*(cols-1))/cols,ch=46;
+    let H=0;
+    groups.forEach(gr=>{gr.y=H;gr.head=48+Math.ceil(gr.how.length/Math.floor((W-44)/12))*18;H+=gr.head+Math.ceil(gr.items.length/cols)*(ch+gap)+22;});
+    const s=svg(el,W,H),colors=[C.coral,'#a65a5a','#b9736e',C.blueD];
+    groups.forEach((gr,gi)=>{
+      const g=s.append('g').attr('transform',`translate(0,${gr.y})`);
+      text(g,0,34,gr.n,30,C.chalk).attr('font-weight',700);text(g,44,19,gr.name,15,C.chalk);
+      wrap(g,44,40,gr.how,W-44,12,C.blue);
+      gr.items.forEach((it,i)=>{
+        const x=(i%cols)*(cw+gap), y=gr.head+Math.floor(i/cols)*(ch+gap),unnamed=it.includes('未列名');
+        const cell=g.append('g');rect(cell,x,y,cw,ch,unnamed?'none':colors[gi]).attr('rx',3).attr('stroke',unnamed?C.ink:'none').attr('stroke-dasharray','4 3');
+        const cap=Math.floor((cw-12)/12),lines=Math.ceil(it.length/cap);
+        const t=text(cell,x+cw/2,y+(ch-lines*17)/2+13,'',12,'#fff','middle');
+        for(let n=0;n<lines;n++)t.append('tspan').attr('x',x+cw/2).attr('dy',n?17:0).text(it.slice(n*cap,(n+1)*cap));
+      });
+    });
+  }
+  function moe(el,D,W) {
+    const m=D.moe_2024,compact=small(W),L=compact?0:120,rowH=compact?75:58;
+    const rows=[['停招专业点',m.停招,C.coral],['撤销专业点',m.撤销,C.coral],['新增专业点',m.新增,C.blue],['调整门类或年限',m['调整门类或年限'],C.blueD],['停招＋撤销',m.停招+m.撤销,C.coralL]];
+    const H=rowH*5+52,s=svg(el,W,H),x=d3.scaleLinear().domain([0,3648]).range([0,W-L-64]);
+    rows.forEach(([k,v,c],i)=>{
+      const y=i*rowH,by=y+(compact?28:8);
+      text(s,compact?0:L-12,y+(compact?17:28),k,14,C.chalk,compact?'start':'end');
+      const b=rect(s,L,by,x(v),26,i===4?'none':c);
+      if(i===4)b.attr('stroke',c).attr('stroke-dasharray','5 3');
+      text(s,L+x(v)+8,by+20,v,17,C.chalk).attr('font-weight',700);
+      bindTip(b,()=>`<b>${k}</b>：${v} 个<br>2024年度 · 全国本科专业布点共${m.布点总数}个`);
+    });
+    wrap(s,L,rowH*5+4,'停招2220＋撤销1428＝3648，约为新增1839的1.98倍',W-L,12);
+  }
+  function moe0503(el,D,W) {
+    const rows=D.moe_0503_years;if(!rows)return;
+    const keys=[['传统五专业',C.coral],['网络与新媒体',C.blue],['其他新兴专业','#9aa7b1']];
+    const compact=small(W),L=30,T=30,B=compact?130:92,H=440,s=svg(el,W,H);
+    const x=d3.scaleBand().domain(rows.map(d=>d.year)).range([L,W-6]).padding(.32),y=d3.scaleLinear().domain([-40,72]).range([H-B,T]);
+    [-40,-20,0,20,40,60].forEach(v=>{s.append('line').attr('x1',L).attr('x2',W-6).attr('y1',y(v)).attr('y2',y(v)).attr('stroke',v?C.grid:C.chalk);text(s,L-6,y(v)+4,v>0?'+'+v:v,11,C.ink,'end');});
+    text(s,L,15,'↑ 新增专业点',12,C.chalk);text(s,L,H-B+20,'↓ 撤销专业点',12,C.coralL);
+    rows.forEach(d=>{
+      const cx=x(d.year),bw=x.bandwidth();let acc=0;
+      keys.forEach(([k,c])=>{const v=d.add[k]||0;if(!v)return;bindTip(rect(s,cx,y(acc+v),bw,y(acc)-y(acc+v)-1,c),()=>`<b>${d.year}年度 · 新增 · ${k}</b>：${v} 个<br>当年新传类新增共 ${d3.sum(Object.values(d.add))} 个${d.二学位?`（含二学位 ${d.二学位} 个）`:''}`);acc+=v;});
+      text(s,cx+bw/2,y(acc)-6,'+'+acc,11,C.chalk,'middle');
+      if(d.del){let total=0;keys.forEach(([k,c])=>{const v=d.del[k]||0;if(!v)return;bindTip(rect(s,cx,y(-total),bw,y(-total-v)-y(-total)-1,c),()=>`<b>${d.year}年度 · 撤销 · ${k}</b>：${v} 个`);total+=v;});text(s,cx+bw/2,y(-total)+15,'−'+total,11,C.coralL,'middle');}
+      else {const g=s.append('g');rect(g,cx,y(0)+2,bw,y(-30)-y(0),'none').attr('stroke',C.coralL).attr('stroke-dasharray','4 4');text(g,cx+bw/2,y(-15)+5,'?',18,C.coralL,'middle');bindTip(g,()=>`<b>${d.year}年度 · 撤销</b><br>教育部附件不再列逐校撤销名单，只公布全国总数，无法统计新传类`);}
+      text(s,cx+bw/2,H-B+42,d.year,12,C.ink,'middle');
+    });
+    legend(s,keys,W,H-B+59);text(s,0,H-4,'?  附件无撤销名单',12,C.coralL);
+  }
+  function circles(el,D,W) {
+    const cs=D.jobs.circles,compact=small(W),R=compact?Math.min(118,(W-20)/2):(W-30)/6,H=compact?cs.length*(R*2+55):R*2+60,s=svg(el,W,H);
+    cs.forEach((c,i)=>{
+      const g=s.append('g').attr('transform',`translate(${compact?W/2:R+5+i*(2*R+10)},${compact?R+5+i*(2*R+55):R+5})`);
+      g.append('circle').attr('r',R).attr('fill',[C.coral,C.blueD,'#597b8d'][i]);
+      const fs=d3.scaleLinear().domain([1,c.n]).range([11,compact?26:23]);
+      const list=[];c.words.filter(w=>w.count>0).slice(0,7).forEach((w,k)=>k%2?list.push(w):list.unshift(w));
+      let yy=-list.reduce((n,w)=>n+fs(w.count)*1.22,0)/2;
+      list.forEach(w=>{const f=fs(w.count);yy+=f*1.22;bindTip(text(g,0,yy-f*.22,w.skill.replace('（通用）',''),f,'#fff','middle').attr('font-weight',f>20?700:400),()=>`<b>${c.group}</b>：${w.skill}<br>${w.count} / ${c.n} 条岗位点名（${pct(w.count,c.n)}）`);});
+      text(g,0,R+29,`${c.group} · ${c.n}条`,compact?17:15,C.chalk,'middle');
+    });
+  }
+  function skills(el,D,W) {
+    const J=D.jobs,compact=small(W),fig=el.closest('figure'),net=el.dataset.group||'互联网·内容岗';
+    const series=[['中央媒体',C.chalk],['市场化媒体',C.blue],[net,C.coral]],L=compact?12:140,R=14,T=compact?124:76,rowH=compact?66:34,H=T+J.skills.length*rowH+12;
+    const s=svg(el,W,H),x=d3.scaleLinear().domain([0,1]).range([L,W-R]);
+    legend(s,series.map(([key,c])=>[`${key}（${J.n[key]}）`,c]),W,4);
+    [0,.25,.5,.75,1].forEach(v=>{s.append('line').attr('x1',x(v)).attr('x2',x(v)).attr('y1',T-8).attr('y2',H-12).attr('stroke',C.grid);text(s,x(v),T-18,v*100+'%',11,C.ink,'middle');});
+    [...J.skills].sort((a,b)=>b[net]-a[net]).forEach((d,i)=>{
+      const yy=T+i*rowH+(compact?27:8),vals=series.map(([key,c])=>({key,c,n:d[key],v:d[key]/J.n[key]}));
+      text(s,compact?0:L-12,yy+(compact?-17:4),d.skill,13,C.chalk,compact?'start':'end');
+      s.append('line').attr('x1',x(d3.min(vals,v=>v.v))).attr('x2',x(d3.max(vals,v=>v.v))).attr('y1',yy).attr('y2',yy).attr('stroke',C.ink).attr('stroke-opacity',.5).attr('stroke-width',2);
+      vals.forEach((v,j)=>{const g=s.append('g');g.append('circle').attr('cx',x(v.v)).attr('cy',yy+(j-1)*5).attr('r',7).attr('fill',v.c).attr('stroke',C.navy).attr('stroke-width',1.5);bindTip(g,()=>`<b>${d.skill}</b><br>${v.key}：${v.n} / ${J.n[v.key]} 条（${pct(v.n,J.n[v.key])}）`);});
+    });
+    fig.querySelectorAll('.toggle button').forEach(b=>{
+      b.setAttribute('aria-pressed',String(b.dataset.g===net));b.classList.toggle('on',b.dataset.g===net);
+      b.onclick=()=>{if(el.dataset.group===b.dataset.g)return;el.dataset.group=b.dataset.g;hideTip();el.replaceChildren();skills(el,D,W);};
+    });
+  }
+  function majors(el,D,W) {
+    const rows=D.jobs.majors,compact=small(W),L=compact?0:100,R=compact?0:128,rowH=compact?110:68,H=rows.length*rowH+58,s=svg(el,W,H);
+    const x=d3.scaleLinear().domain([0,1]).range([L,W-R]),parts=[['限定',C.coral,'只接受所列专业'],['优先',C.coralL,'所列专业优先'],['未提或不限',C.blueD,'未提专业或专业不限']];
+    rows.forEach((r,i)=>{
+      const y=i*rowH,by=y+(compact?31:12);text(s,compact?0:L-12,y+(compact?18:26),r.group,14,C.chalk,compact?'start':'end');
+      text(s,compact?W:L-12,y+(compact?18:45),r.n+'条',12,C.blue,compact?'end':'end');let acc=0;
+      parts.forEach(([k,c,desc])=>{const v=r[k]/r.n,w=x(acc+v)-x(acc);if(r[k]){const g=s.append('g');rect(g,x(acc),by,w-2,30,c);text(g,x(acc)+w/2-1,by+21,r[k],13,k==='优先'?C.navy:'#fff','middle');bindTip(g,()=>`<b>${r.group}</b> · ${desc}<br>${r[k]} / ${r.n} 条`);}acc+=v;});
+      text(s,compact?0:W-R+12,compact?by+54:by+12,`点名新传 ${r['点名新传']}`,12,C.chalk);
+      text(s,compact?W:W-R+12,compact?by+54:by+30,`点名理工数统 ${r['点名理工数统计算机']}`,12,C.coralL,compact?'end':'start');
+    });legend(s,parts.map(([k,c])=>[k,c]),W,H-42);
+  }
+  function cost(el,D,W) {
+    const rows=[
+      {k:'中传辅修 · 学位',v:5200,f:'40学分 × 130元',t:'周三晚、周五晚、周末（校内）',who:'走进新传',extra:'含5学分毕业论文；主修结束即止'},
+      {k:'中传辅修 · 证书',v:3250,f:'25学分 × 130元',t:'周三晚、周五晚、周末（校内）',who:'走进新传',extra:'证书不授予学位'},
+      {k:'北大 FLIC',v:null,f:'简章未列额外学费',t:'校内跨院修读',who:'走进新传',extra:'报名成绩须居前50%；不可修双学位'},
+      {k:'北大 国际金融',v:0,f:'不另收学费',t:'9—4月深圳，4—6月英国',who:'跨出新传',extra:'住宿、生活、交通、保险自理（未公开金额）',hidden:true}
     ];
-    const W = 640, L = 120, H = rows.length * 58 + 70;
-    const x = d3.scaleLinear().domain([0, 3648]).range([0, W - L - 70]);
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const flt = chalkDefs(svg);
-    rows.forEach((r, i) => {
-      const y = i * 58;
-      const g = svg.append('g').attr('transform', `translate(0,${y})`);
-      g.append('text').attr('x', L - 12).attr('y', 26).attr('text-anchor', 'end').attr('fill', C.chalk).attr('font-size', 15).text(r.k);
-      const b = g.append('rect').attr('x', L).attr('y', 8).attr('height', 28).attr('width', 0).attr('fill', r.c).attr('filter', flt);
-      b.transition().delay(i * 160).duration(1000).attr('width', x(r.v));
-      const t = g.append('text').attr('x', L + 8).attr('y', 28).attr('fill', C.chalk).attr('font-size', 18).attr('font-weight', 700).text(r.v);
-      t.transition().delay(i * 160).duration(1000).attr('x', L + x(r.v) + 8);
-      bindTip(b, () => `<b>${r.k}</b>：${r.v} 个<br>2024年度 · 全国本科专业布点共${m['布点总数']}个`);
-    });
-    // 停招+撤销 合计 对比 新增
-    const y = rows.length * 58 + 10;
-    const g = svg.append('g').attr('transform', `translate(0,${y})`);
-    g.append('text').attr('x', L - 12).attr('y', 26).attr('text-anchor', 'end').attr('fill', C.coralL).attr('font-size', 15).text('停招＋撤销');
-    g.append('rect').attr('x', L).attr('y', 8).attr('height', 28).attr('width', 0).attr('fill', 'none').attr('stroke', C.coralL).attr('stroke-width', 2).attr('stroke-dasharray', '6 4')
-      .transition().delay(800).duration(1000).attr('width', x(3648));
-    g.append('text').attr('x', L + x(3648) + 8).attr('y', 28).attr('fill', C.coralL).attr('font-size', 18).attr('font-weight', 700).text('3648').style('opacity', 0)
-      .transition().delay(1600).style('opacity', 1);
-    g.append('text').attr('x', L).attr('y', 58).attr('fill', C.ink).attr('font-size', 13)
-      .text('停招2220＋撤销1428＝3648，约为新增1839的1.98倍');
-  }
-
-  // ------------------------------------------------------------ 新传类 0503 逐年（数据到位后启用）
-  function moe0503(el, D) {
-    const rows = D.moe_0503_years;
-    if (!rows) return;
-    el.closest('figure').hidden = false;
-    const keys = [['传统五专业', C.coral], ['网络与新媒体', C.blue], ['其他新兴专业', 'rgba(232,237,241,.55)']];
-    const W = 680, H = 400, L = 46, T = 30, B = 70;
-    const x = d3.scaleBand().domain(rows.map(d => d.year)).range([L, W - 10]).padding(.32);
-    const y = d3.scaleLinear().domain([-40, 72]).range([H - B, T]);
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const flt = chalkDefs(svg);
-    [-40, -20, 0, 20, 40, 60].forEach(v => {
-      svg.append('line').attr('x1', L).attr('x2', W - 10).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', v ? C.grid : C.chalk).attr('stroke-opacity', v ? 1 : .7);
-      svg.append('text').attr('x', L - 8).attr('y', y(v) + 4).attr('text-anchor', 'end').attr('fill', C.ink).attr('font-size', 11).text(v > 0 ? '+' + v : v);
-    });
-    svg.append('text').attr('x', L).attr('y', T - 12).attr('fill', C.chalk).attr('font-size', 12).text('↑ 新增专业点');
-    svg.append('text').attr('x', L).attr('y', y(-40) + 18).attr('fill', C.coralL).attr('font-size', 12).text('↓ 撤销专业点');
-    rows.forEach((d, i) => {
-      const cx = x(d.year), bw = x.bandwidth();
-      let acc = 0;
-      keys.forEach(([k, c], j) => {
-        const v = d.add[k] || 0;
-        if (!v) return;
-        const r = svg.append('rect').attr('x', cx).attr('width', bw).attr('y', y(0)).attr('height', 0).attr('fill', c).attr('filter', flt);
-        r.transition().delay(i * 140 + j * 80).duration(700).attr('y', y(acc + v)).attr('height', y(acc) - y(acc + v) - 1);
-        bindTip(r, () => `<b>${d.year}年度 · 新增 · ${k}</b>：${v} 个<br>当年新传类新增共 ${d3.sum(Object.values(d.add))} 个${d['二学位'] ? `（含二学位 ${d['二学位']} 个）` : ''}`);
-        acc += v;
-      });
-      svg.append('text').attr('x', cx + bw / 2).attr('y', y(acc) - 6).attr('text-anchor', 'middle').attr('fill', C.chalk).attr('font-size', 12).text('+' + acc);
-      if (d.del) {
-        let dacc = 0;
-        keys.forEach(([k, c], j) => {
-          const v = d.del[k] || 0;
-          if (!v) return;
-          const r = svg.append('rect').attr('x', cx).attr('width', bw).attr('y', y(-dacc)).attr('height', 0).attr('fill', c).attr('filter', flt);
-          r.transition().delay(600 + i * 140 + j * 80).duration(700).attr('height', y(-dacc - v) - y(-dacc) - 1);
-          bindTip(r, () => `<b>${d.year}年度 · 撤销 · ${k}</b>：${v} 个`);
-          dacc += v;
-        });
-        svg.append('text').attr('x', cx + bw / 2).attr('y', y(-dacc) + 16).attr('text-anchor', 'middle').attr('fill', C.coralL).attr('font-size', 12).text('−' + dacc);
-      } else {
-        const g = svg.append('g');
-        g.append('rect').attr('x', cx).attr('width', bw).attr('y', y(0) + 2).attr('height', y(-30) - y(0)).attr('fill', 'none').attr('stroke', C.coralL).attr('stroke-dasharray', '4 4').attr('stroke-opacity', .7);
-        g.append('text').attr('x', cx + bw / 2).attr('y', y(-15) + 4).attr('text-anchor', 'middle').attr('fill', C.coralL).attr('font-size', 18).text('?');
-        bindTip(g, () => `<b>${d.year}年度 · 撤销</b><br>教育部附件不再列逐校撤销名单，只公布全国总数，无法统计新传类`);
-      }
-      svg.append('text').attr('x', cx + bw / 2).attr('y', H - B + 34).attr('text-anchor', 'middle').attr('fill', C.ink).attr('font-size', 13).text(d.year);
-    });
-    const lx0 = L; let lx = lx0;
-    keys.forEach(([k, c]) => {
-      svg.append('rect').attr('x', lx).attr('y', H - 22).attr('width', 12).attr('height', 12).attr('fill', c);
-      const t = svg.append('text').attr('x', lx + 18).attr('y', H - 12).attr('fill', C.ink).attr('font-size', 12).text(k);
-      lx += 34 + t.node().getComputedTextLength();
-    });
-    svg.append('text').attr('x', lx + 6).attr('y', H - 12).attr('fill', C.coralL).attr('font-size', 12).text('?  附件无撤销名单');
-  }
-
-  // ------------------------------------------------------------ 三类雇主词圈
-  function circles(el, D) {
-    const cs = D.jobs.circles;
-    const W = 720, R = 108, H = 2 * R + 70;
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const flt = chalkDefs(svg);
-    const fills = [C.coral, '#9aa7b1', C.blue];
-    cs.forEach((c, i) => {
-      const cx = R + 12 + i * ((W - 2 * R - 24) / 2), cy = R + 6;
-      const g = svg.append('g').attr('transform', `translate(${cx},${cy})`);
-      const id = 'clip' + i + Math.random().toString(36).slice(2, 6);
-      g.append('clipPath').attr('id', id).append('circle').attr('r', R - 4);
-      g.append('circle').attr('r', R).attr('fill', fills[i]).attr('fill-opacity', .9).attr('filter', flt)
-        .attr('transform', 'scale(0)').transition().delay(i * 200).duration(700).attr('transform', 'scale(1)');
-      const top = c.words.filter(w => w.count > 0).slice(0, 7);
-      const fs = d3.scaleLinear().domain([1, c.n]).range([11, 27]);
-      // 最大的字放中间，其余交替上下排布
-      const list = [];
-      top.forEach((w, k) => (k % 2 ? list.push(w) : list.unshift(w)));
-      const total = list.reduce((s, w) => s + fs(w.count) * 1.22, 0);
-      let yy = -total / 2;
-      const tg = g.append('g').attr('clip-path', `url(#${id})`);
-      list.forEach(w => {
-        const f = fs(w.count);
-        yy += f * 1.22;
-        const t = tg.append('text').attr('x', 0).attr('y', yy - f * .22).attr('text-anchor', 'middle')
-          .attr('font-size', f).attr('font-weight', f > 20 ? 800 : 500).attr('fill', '#fff')
-          .attr('fill-opacity', .45 + .55 * (w.count / c.n)).text(w.skill.replace('（通用）', '')).style('opacity', 0);
-        t.transition().delay(i * 200 + 500).duration(600).style('opacity', 1);
-        bindTip(t, () => `<b>${c.group}</b>：${w.skill}<br>${w.count} / ${c.n} 条岗位点名（${pct(w.count, c.n)}）`);
-      });
-      g.append('text').attr('y', R + 34).attr('text-anchor', 'middle').attr('fill', C.chalk).attr('font-size', 17).text(`${c.group} · ${c.n}条`);
+    const compact=small(W),L=compact?0:146,rowH=compact?154:108,H=rows.length*rowH,s=svg(el,W,H),x=d3.scaleLinear().domain([0,6000]).range([0,W-L-86]);
+    rows.forEach((it,i)=>{
+      const y=i*rowH,by=y+(compact?35:12),g=s.append('g');
+      text(g,compact?0:L-12,y+(compact?20:30),it.k,15,C.chalk,compact?'start':'end');
+      text(g,compact?W:L-12,y+(compact?20:50),it.who,11,C.blue,'end');
+      if(it.v){rect(g,L,by,x(it.v),27,C.coral);text(g,L+x(it.v)+8,by+21,it.v.toLocaleString()+' 元',15,C.chalk);}
+      else text(g,L,by+21,it.v===null?it.f:'0 元学费 ＋ 异地生活费用',14,C.chalk);
+      let ty=by+51;
+      ty+=wrap(g,L,ty,`${it.f} · ${it.t}`,W-L,12);
+      if(it.hidden)wrap(g,L,ty+2,it.extra,W-L,12,C.coralL);
+      bindTip(g,()=>`<b>${it.k}</b><br>${it.f}<br>时间地点：${it.t}<br>${it.extra}`);
     });
   }
-
-  // ------------------------------------------------------------ 技能点图
-  function skills(el, D) {
-    const J = D.jobs;
-    let net = '互联网·内容岗';
-    const series = () => [
-      { key: '中央媒体', color: C.chalk },
-      { key: '市场化媒体', color: C.blue },
-      { key: net, color: C.coral },
-    ];
-    const W = 680, L = 150, R = 30, rowH = 30, T = 46;
-    const H = T + J.skills.length * rowH + 20;
-    const x = d3.scaleLinear().domain([0, 1]).range([L, W - R]);
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    [0, .25, .5, .75, 1].forEach(v => {
-      svg.append('line').attr('x1', x(v)).attr('x2', x(v)).attr('y1', T - 12).attr('y2', H - 14).attr('stroke', C.grid);
-      svg.append('text').attr('x', x(v)).attr('y', T - 18).attr('text-anchor', 'middle').attr('fill', C.ink).attr('font-size', 11).text(v * 100 + '%');
-    });
-    // 图例
-    const lg = svg.append('g').attr('class', 'legend');
-    function legend() {
-      lg.selectAll('*').remove();
-      let lx = L;
-      series().forEach(s => {
-        lg.append('circle').attr('cx', lx).attr('cy', 8).attr('r', 6).attr('fill', s.color);
-        const t = lg.append('text').attr('x', lx + 10).attr('y', 12).attr('fill', C.chalk).attr('font-size', 12).text(`${s.key}（${J.n[s.key]}）`);
-        lx += 22 + t.node().getComputedTextLength();
-      });
-    }
-    const rows = svg.append('g');
-    function render() {
-      legend();
-      const S = series();
-      const data = J.skills.map(d => ({ ...d, vals: S.map(s => ({ key: s.key, color: s.color, v: d[s.key] / J.n[s.key], n: d[s.key], N: J.n[s.key] })) }))
-        .sort((a, b) => (b[net] / J.n[net]) - (a[net] / J.n[net]));
-      const g = rows.selectAll('g.row').data(data, d => d.skill);
-      const ge = g.enter().append('g').attr('class', 'row');
-      ge.append('text').attr('class', 'lab').attr('x', L - 12).attr('y', 4).attr('text-anchor', 'end').attr('font-size', 13);
-      ge.append('line').attr('class', 'rng').attr('stroke', 'rgba(232,237,241,.35)').attr('stroke-width', 2);
-      const all = ge.merge(g);
-      all.transition().duration(700).attr('transform', (d, i) => `translate(0,${T + 6 + i * rowH})`);
-      all.select('.lab').text(d => d.skill).attr('fill', d => (d.skill === '新闻采编与判断' || d.skill === '数据分析与指标' || d.skill === 'AI工具与大模型') ? C.chalk : C.ink)
-        .attr('font-weight', d => (d.skill === '新闻采编与判断' || d.skill === '数据分析与指标' || d.skill === 'AI工具与大模型') ? 700 : 400);
-      all.select('.rng').transition().duration(700)
-        .attr('x1', d => x(d3.min(d.vals, v => v.v))).attr('x2', d => x(d3.max(d.vals, v => v.v)));
-      const dots = all.selectAll('circle.dot').data(d => d.vals.map(v => ({ ...v, skill: d.skill })), (d, i) => i);
-      dots.enter().append('circle').attr('class', 'dot').attr('r', 7).attr('cx', x(0)).attr('stroke', C.navy).attr('stroke-width', 1.5)
-        .merge(dots)
-        .attr('fill', d => d.color)
-        .call(s => bindTip(s, d => `<b>${d.skill}</b><br>${d.key}：${d.n} / ${d.N} 条（${pct(d.n, d.N)}）`))
-        .transition().duration(800).delay((d, i) => i * 60).attr('cx', d => x(d.v));
-    }
-    render();
-    const fig = el.closest('figure');
-    fig.querySelectorAll('.toggle button').forEach(b => b.addEventListener('click', () => {
-      fig.querySelectorAll('.toggle button').forEach(o => o.classList.toggle('on', o === b));
-      net = b.dataset.g;
-      render();
-    }));
-  }
-
-  // ------------------------------------------------------------ 专业门槛
-  function majors(el, D) {
-    const rows = D.jobs.majors;
-    const W = 680, L = 100, R = 150, rowH = 62, H = rows.length * rowH + 50;
-    const x = d3.scaleLinear().domain([0, 1]).range([L, W - R]);
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const flt = chalkDefs(svg);
-    const parts = [['限定', C.coral, '只接受所列专业'], ['优先', C.coralL, '所列专业优先'], ['未提或不限', 'rgba(232,237,241,.22)', '未提专业或专业不限']];
-    rows.forEach((r, i) => {
-      const y = i * rowH;
-      const g = svg.append('g').attr('transform', `translate(0,${y})`);
-      g.append('text').attr('x', L - 12).attr('y', 26).attr('text-anchor', 'end').attr('fill', C.chalk).attr('font-size', 15).text(r.group);
-      g.append('text').attr('x', L - 12).attr('y', 44).attr('text-anchor', 'end').attr('fill', C.blue).attr('font-size', 11).text(r.n + '条');
-      let acc = 0;
-      parts.forEach(([k, c, desc], j) => {
-        const v = r[k] / r.n;
-        const rect = g.append('rect').attr('x', x(acc)).attr('y', 10).attr('height', 34).attr('width', 0).attr('fill', c).attr('filter', flt);
-        rect.transition().delay(i * 200 + j * 150).duration(700).attr('width', Math.max(0, x(acc + v) - x(acc) - 2));
-        if (r[k] > 0) g.append('text').attr('x', x(acc) + 8).attr('y', 32).attr('fill', j === 2 ? C.ink : '#fff').attr('font-size', 13).attr('font-weight', 700).text(r[k]);
-        bindTip(rect, () => `<b>${r.group}</b> · ${desc}<br>${r[k]} / ${r.n} 条`);
-        acc += v;
-      });
-      g.append('text').attr('x', W - R + 14).attr('y', 24).attr('fill', C.chalk).attr('font-size', 12).text(`点名新传 ${r['点名新传']}`);
-      g.append('text').attr('x', W - R + 14).attr('y', 42).attr('fill', C.coralL).attr('font-size', 12).text(`点名理工数统 ${r['点名理工数统计算机']}`);
-    });
-    let lx = L;
-    parts.forEach(([k, c]) => {
-      svg.append('rect').attr('x', lx).attr('y', H - 26).attr('width', 12).attr('height', 12).attr('fill', c);
-      svg.append('text').attr('x', lx + 18).attr('y', H - 16).attr('fill', C.ink).attr('font-size', 12).text(k);
-      lx += 100;
+  function seats(el,D,W) {
+    const compact=small(W),cols=compact?10:20,step=compact?(W-20)/cols:(W-160)/cols,rowH=compact?152:94,H=D.admissions.length*rowH,s=svg(el,W,H);
+    const person='M0,-14 a5,5 0 1,1 0.01,0 Z M-7,-6 Q0,-9 7,-6 L8,10 L-8,10 Z';
+    D.admissions.forEach((r,i)=>{
+      const y=i*rowH;text(s,0,y+19,`${r.year} ${r.short}`,15,C.chalk);
+      text(s,0,y+47,r.count,26,C.coralL).attr('font-weight',700);
+      text(s,34,y+46,`/ ${r.short==='国际金融'?'约':''}${r.plan}人 · ${r.status}`,12);
+      for(let k=0;k<r.plan;k++)s.append('path').attr('d',person).attr('transform',`translate(${(compact?10:164)+(k%cols)*step},${y+(compact?82:36)+Math.floor(k/cols)*32})`).attr('fill',k<r.count?C.coral:'none').attr('stroke',k<r.count?C.coral:C.blue).attr('stroke-width',1.3);
+      text(s,compact?W:164,y+(compact?140:75),`空 ${r.plan-r.count}`,12,C.blue,compact?'end':'start');
     });
   }
-
-  // ------------------------------------------------------------ 账单
-  function cost(el, D) {
-    const items = [
-      { k: '中传辅修 · 学位', v: 5200, f: '40学分 × 130元', t: '周三晚、周五晚、周末（校内）', who: '走进新传', extra: '含5学分毕业论文；主修结束即止' },
-      { k: '中传辅修 · 证书', v: 3250, f: '25学分 × 130元', t: '周三晚、周五晚、周末（校内）', who: '走进新传', extra: '证书不授予学位' },
-      { k: '北大 FLIC', v: 0, f: '简章未列额外学费', t: '校内跨院修读', who: '走进新传', extra: '报名成绩须居前50%；不可修双学位' },
-      { k: '北大 国际金融', v: 0, f: '不另收学费', t: '9—4月深圳，4—6月英国', who: '跨出新传', extra: '住宿、生活、交通、保险自理（未公开金额）', hidden: true },
-    ];
-    const W = 680, L = 150, rowH = 64, H = items.length * rowH + 30;
-    const x = d3.scaleLinear().domain([0, 6000]).range([L, W - 150]);
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const flt = chalkDefs(svg);
-    const pat = svg.append('defs').append('pattern').attr('id', 'hatchc').attr('width', 8).attr('height', 8).attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', 'rotate(45)');
-    pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 8).attr('stroke', C.coralL).attr('stroke-width', 2);
-    items.forEach((it, i) => {
-      const g = svg.append('g').attr('transform', `translate(0,${i * rowH})`);
-      g.append('text').attr('x', L - 12).attr('y', 24).attr('text-anchor', 'end').attr('fill', C.chalk).attr('font-size', 15).text(it.k);
-      g.append('text').attr('x', L - 12).attr('y', 42).attr('text-anchor', 'end').attr('fill', C.blue).attr('font-size', 11).text(it.who);
-      const b = g.append('rect').attr('x', L).attr('y', 8).attr('height', 30).attr('width', 0).attr('fill', C.coral).attr('filter', flt);
-      b.transition().delay(i * 200).duration(900).attr('width', x(it.v) - L);
-      let label = it.v ? `${it.v.toLocaleString()} 元` : '0 元学费';
-      if (it.hidden) {
-        const h = g.append('rect').attr('x', L).attr('y', 8).attr('height', 30).attr('width', 0).attr('fill', 'url(#hatchc)').attr('stroke', C.coralL).attr('stroke-dasharray', '4 3');
-        h.transition().delay(i * 200).duration(900).attr('width', x(4200) - L);
-        g.append('text').attr('x', L + 10).attr('y', 29).attr('fill', '#fff').attr('font-size', 13).text('异地食宿、交通、保险自理：?');
-        bindTip(h, () => `<b>${it.k}</b><br>${it.f}；${it.extra}<br>简章未列具体金额`);
-        label = '0 元学费 ＋ ?';
-      }
-      g.append('text').attr('x', (it.hidden ? x(4200) : x(it.v)) + 10).attr('y', 29).attr('fill', C.chalk).attr('font-size', 16).attr('font-weight', 700).text(label);
-      g.append('text').attr('x', L).attr('y', 56).attr('fill', C.ink).attr('font-size', 11.5).attr('opacity', .8).text(`${it.f} · ${it.t}`);
-      bindTip(b, () => `<b>${it.k}</b><br>${it.f}<br>时间地点：${it.t}<br>${it.extra}`);
+  function minor(el,D,W) {
+    const m=D.cuc_minor,H=small(W)?340:300,s=svg(el,W,H);
+    const root=d3.hierarchy({children:m.blocks.map(([name,v])=>({name,v}))}).sum(d=>d.v);d3.treemap().size([W,H]).paddingInner(6)(root);
+    root.leaves().forEach((l,i)=>{
+      const g=s.append('g');rect(g,l.x0,l.y0,l.x1-l.x0,l.y1-l.y0,i===2?C.coral:i?C.blueD:C.blue);
+      const cellH=l.y1-l.y0;
+      text(g,l.x0+14,l.y0+Math.min(51,cellH*.52),l.data.v,42,'#fff').attr('font-weight',800);wrap(g,l.x0+14,l.y0+Math.min(78,cellH-16),l.data.name+' · 学分',l.x1-l.x0-24,14,'#fff');
+      bindTip(g,()=>`<b>${l.data.name}</b><br>${i===2?m.data_courses.map(([n,c,h])=>`${n} · ${c}学分 / ${h}学时`).join('<br>'):l.data.v+'学分'}`);
     });
   }
-
-  // ------------------------------------------------------------ 名额小人
-  function seats(el, D) {
-    const rows = D.admissions.map(a => ({ label: `${a.year} ${a.short}`, plan: a.plan, n: a.count, status: a.status, approx: a.short === '国际金融' }));
-    const W = 680, L = 120, rowH = 92, H = rows.length * rowH + 10, step = 26;
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const person = 'M0,-14 a5,5 0 1,1 0.01,0 Z M-7,-6 Q0,-9 7,-6 L8,10 L-8,10 Z';
-    rows.forEach((r, i) => {
-      const g = svg.append('g').attr('transform', `translate(0,${i * rowH})`);
-      g.append('text').attr('x', 0).attr('y', 30).attr('fill', C.chalk).attr('font-size', 16).text(r.label);
-      g.append('text').attr('x', 0).attr('y', 52).attr('fill', C.coralL).attr('font-size', 26).attr('font-weight', 800).text(r.n);
-      g.append('text').attr('x', 26 + (r.n >= 10 ? 14 : 0), 52).attr('x', 30).attr('y', 52).attr('fill', C.ink).attr('font-size', 13).text(`/ ${r.approx ? '约' : ''}${r.plan}人 · ${r.status}`);
-      for (let k = 0; k < r.plan; k++) {
-        const on = k < r.n;
-        const p = g.append('path').attr('d', person).attr('transform', `translate(${L + 40 + k * step},${36})`)
-          .attr('fill', on ? C.coral : 'none').attr('stroke', on ? C.coral : 'rgba(232,237,241,.45)').attr('stroke-width', 1.4).style('opacity', 0);
-        p.transition().delay(i * 300 + k * 40).duration(300).style('opacity', 1);
-      }
-      g.append('text').attr('x', L + 40 + r.plan * step + 6).attr('y', 42).attr('fill', C.blue).attr('font-size', 11).text(`空 ${r.plan - r.n}`);
+  function cuc6(el,D,W) {
+    const compact=small(W),L=compact?0:210,rowH=compact?103:60,H=D.cuc_directions.rows.length*rowH+8,s=svg(el,W,H),x=d3.scaleLinear().domain([0,.35]).range([0,W-L-83]);
+    D.cuc_directions.rows.forEach(([name,note,k,n],i)=>{
+      const y=i*rowH,by=y+(compact?58:10);text(s,compact?0:L-14,y+22,name,compact?14:13,'#142232',compact?'start':'end').attr('font-weight',name==='新闻学'?800:500);
+      text(s,compact?0:L-14,y+41,note,11.5,'#526675',compact?'start':'end');
+      const g=s.append('g');rect(g,L,by,x(.35),26,'#efece2');rect(g,L,by,x(k/n),26,k>=7?'#142232':'#d9b84a');
+      text(g,L+x(k/n)+8,by+20,`${k} / ${n} 门`,14,'#142232').attr('font-weight',700);
+      bindTip(g,()=>`<b>${name}</b>（${note}）<br>主要课程 ${n} 门，其中数据、计算与AI类 ${k} 门（${pct(k,n)}）`);
     });
   }
-
-  // ------------------------------------------------------------ 16学分 树图
-  function minor(el, D) {
-    const m = D.cuc_minor;
-    const W = 640, H = 300;
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    const flt = chalkDefs(svg);
-    const root = d3.hierarchy({ children: m.blocks.map(([name, v]) => ({ name, v })) }).sum(d => d.v);
-    d3.treemap().size([W, H]).paddingInner(6)(root);
-    const tips = {
-      '新闻史论': '新闻史论类必修，6学分',
-      '新闻采写编': '新闻采访、写作、编辑类必修，6学分',
-      '数据与数字新闻': m.data_courses.map(([n, c, h]) => `${n} · ${c}学分 / ${h}学时`).join('<br>'),
-    };
-    root.leaves().forEach((l, i) => {
-      const isData = l.data.name.includes('数据');
-      const g = svg.append('g');
-      const r = g.append('rect').attr('x', l.x0).attr('y', l.y0).attr('width', l.x1 - l.x0).attr('height', l.y1 - l.y0)
-        .attr('fill', isData ? C.coral : (i ? C.blueD : C.blue)).attr('filter', flt).style('opacity', 0);
-      r.transition().delay(i * 250).duration(600).style('opacity', 1);
-      g.append('text').attr('x', l.x0 + 16).attr('y', l.y0 + 50).attr('fill', '#fff').attr('font-size', 46).attr('font-weight', 800).text(l.data.v);
-      g.append('text').attr('x', l.x0 + 16).attr('y', l.y0 + 80).attr('fill', '#fff').attr('font-size', 16).text(l.data.name + ' · 学分');
-      bindTip(r, () => `<b>${l.data.name}</b><br>${tips[l.data.name]}`);
-    });
-  }
-
-  // ------------------------------------------------------------ 中传6个方向（浅色章节）
-  function cuc6(el, D) {
-    const rows = D.cuc_directions.rows.map(([name, note, k, n]) => ({ name, note, k, n }));
-    const W = 680, L = 210, rowH = 52, H = rows.length * rowH + 20;
-    const x = d3.scaleLinear().domain([0, .35]).range([L, W - 90]);
-    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
-    rows.forEach((r, i) => {
-      const g = svg.append('g').attr('transform', `translate(0,${i * rowH})`);
-      const hl = r.name === '新闻学';
-      g.append('text').attr('x', L - 14).attr('y', 22).attr('text-anchor', 'end').attr('fill', '#142232').attr('font-size', 14.5).attr('font-weight', hl ? 800 : 500).text(r.name);
-      g.append('text').attr('x', L - 14).attr('y', 39).attr('text-anchor', 'end').attr('fill', '#7a8a96').attr('font-size', 11).text(r.note);
-      g.append('rect').attr('x', L).attr('y', 8).attr('height', 26).attr('width', x(.35) - L).attr('fill', '#efece2');
-      const b = g.append('rect').attr('x', L).attr('y', 8).attr('height', 26).attr('width', 0).attr('fill', r.k >= 7 ? '#142232' : '#d9b84a');
-      b.transition().delay(i * 150).duration(900).attr('width', x(r.k / r.n) - L);
-      g.append('text').attr('x', x(r.k / r.n) + 10).attr('y', 27).attr('fill', '#142232').attr('font-size', 15).attr('font-weight', 700).text(`${r.k} / ${r.n} 门`);
-      bindTip(b, () => `<b>${r.name}</b>（${r.note}）<br>主要课程 ${r.n} 门，其中数据、计算与AI类 ${r.k} 门（${pct(r.k, r.n)}）`);
-    });
-  }
-
-  // ------------------------------------------------------------ 失眠序列：招聘原文气泡
   function bubbles(D) {
-    const host = document.querySelector('.insomnia .bubbles');
-    if (!host) return;
-    const pos = [[4, 12], [58, 9], [30, 22], [66, 26], [2, 30], [40, 6], [62, 42], [6, 46]];
-    const els = D.jd_quotes.map((q, i) => {
-      const a = document.createElement('a');
-      a.className = 'bubble';
-      a.href = q.url; a.target = '_blank'; a.rel = 'noopener';
-      a.style.left = pos[i % pos.length][0] + '%';
-      a.style.top = pos[i % pos.length][1] + '%';
-      a.innerHTML = `“${q.quote}”<small>—— ${q.employer} · ${q.title}</small>`;
-      host.appendChild(a);
-      return a;
-    });
-    window.sceneHooks.push((sc, p) => {
-      if (!sc.classList.contains('insomnia')) return;
-      const k = Math.floor(p * (els.length + 1.5));
-      const keep = innerWidth < 760 ? 1 : 3;
-      els.forEach((e, i) => { e.classList.toggle('in', i < k); e.classList.toggle('old', i < k - keep); });
+    const host=document.querySelector('.insomnia .bubbles');if(!host)return;
+    const pos=[[4,12],[58,9],[30,22],[66,26],[2,30],[40,6],[62,42],[6,46]];
+    const els=D.jd_quotes.map((q,i)=>{const a=document.createElement('a');a.className='bubble';a.href=q.url;a.target='_blank';a.rel='noopener';a.style.left=pos[i%pos.length][0]+'%';a.style.top=pos[i%pos.length][1]+'%';a.innerHTML=`“${q.quote}”<small>—— ${q.employer} · ${q.title}</small>`;a.tabIndex=-1;host.append(a);return a;});
+    let prev=-1,prevKeep=0;
+    window.sceneHooks.push((sc,p)=>{
+      if(!sc.classList.contains('insomnia'))return;
+      const k=Math.min(els.length,Math.floor(p*(els.length+1.5))),keep=innerWidth<760?1:3;
+      if(k===prev&&keep===prevKeep)return;prev=k;prevKeep=keep;
+      els.forEach((e,i)=>{const visible=i<k&&i>=k-keep;e.classList.toggle('in',i<k);e.classList.toggle('old',i<k-keep);e.tabIndex=visible?0:-1;e.setAttribute('aria-hidden',String(!visible));});
     });
   }
+  const specs=[['c-cut16',cut16],['c-moe',moe],['c-0503',moe0503],['c-circles',circles],['c-skills',skills],['c-majors',majors],['c-cost',cost],['c-seats',seats],['c-minor',minor],['c-cuc6',cuc6]];
+  fetch('assets/data/story.json').then(r=>{if(!r.ok)throw Error('Chart data '+r.status);return r.json();}).then(D=>{
+    const charts=specs.map(([id,fn])=>({el:document.getElementById(id),fn,width:0})).filter(c=>c.el);
+    function render() {
+      const sizes=charts.map(c=>Math.round(c.el.getBoundingClientRect().width));
+      charts.forEach((c,i)=>{const W=sizes[i];if(W>0&&c.width!==W){c.width=W;c.el.replaceChildren();c.fn(c.el,D,W);}});
+      window.refreshScroll?.();
+    }
+    render();bubbles(D);window.refreshScroll?.();
+    let timer;
+    const observer=new ResizeObserver(()=>{clearTimeout(timer);timer=setTimeout(render,120);});
+    charts.forEach(c=>observer.observe(c.el));
+  }).catch(()=>{
+    specs.forEach(([id])=>{const el=document.getElementById(id);if(el){const btn=document.createElement('button');btn.className='chart-retry';btn.textContent='重新加载图表';btn.onclick=()=>location.reload();el.append(btn);}});
+  });
 })();

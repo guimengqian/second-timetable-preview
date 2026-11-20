@@ -1,91 +1,122 @@
-/* 滚动叙事：进度变量、人物头像、章节导航、渐入、参考资料 */
+/* Scroll work is coalesced; geometry is read only when layout changes. */
 (function () {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-
-  // ---------------------------------------------------------- 滚动进度 --p
-  const scenes = $$('[data-progress]');
-  const steppers = scenes.map(sc => ({ sc, items: $$('[data-at]', sc) }));
-  window.sceneHooks = []; // charts.js 可注册 (scene, p) 回调
-
-  function progressOf(el) {
-    const r = el.getBoundingClientRect();
-    const total = r.height - innerHeight;
-    return total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
-  }
-
-  // ---------------------------------------------------------- 人物亮起
-  const cast = $('#cast');
-  const castItems = Object.fromEntries($$('#cast li').map(li => [li.dataset.p, li]));
-  const mentions = $$('.who[data-p], .quote-wall [data-p]');
-
-  function lightCast() {
-    const lit = new Set();
-    const lo = innerHeight * 0.18, hi = innerHeight * 0.82;
-    for (const m of mentions) {
-      const r = m.getBoundingClientRect();
-      if (r.bottom > lo && r.top < hi) lit.add(m.dataset.p);
+  const scenes = $$('[data-progress]').map(sc => ({
+    sc, sticky: $('.sticky', sc), items: $$('[data-at]', sc).map(el => ({el, at: +el.dataset.at})),
+    motion: $$('.cover-art, .cover-title, .cover-sub, .scroll-cue, .phone', sc), p: -1, step: -2
+  }));
+  window.sceneHooks = [];
+  const cast = $('#cast'), nav = $('#chapnav'), cover = $('.cover');
+  const castItems = $$('#cast li'), navLinks = $$('#chapnav a');
+  const sections = $$('main > .sec'), mentions = $$('.who[data-p], .quote-wall [data-p]').filter(m => !m.closest('[data-progress]'));
+  const week = $('#week'), lightCover = $('#s4 .chapter-cover');
+  const geometry = new Map();
+  let dirty = true, queued = false, vh = innerHeight, shown = false, active = '', light = false;
+  const clamp = v => Math.max(0, Math.min(1, v));
+  const measured = [...new Set([...scenes.map(s => s.sc), ...sections, ...mentions, cover, week, lightCover])].filter(Boolean);
+  function measure() {
+    const y = scrollY;
+    vh = document.documentElement.clientHeight;
+    for (const el of measured) {
+      const r = el.getBoundingClientRect();
+      geometry.set(el, {top: r.top + y, bottom: r.bottom + y, height: r.height});
     }
-    // 粘性场景中当前展示的卡片
-    $$('.stair-cards article.in').forEach(a => lit.add(a.dataset.p));
-    const wk = $('#week');
-    if (wk) {
-      const r = wk.getBoundingClientRect();
-      if (r.top < innerHeight * 0.5 && r.bottom > innerHeight * 0.5) lit.add(wk.dataset.who || 'linhe');
-    }
-    for (const [p, li] of Object.entries(castItems)) li.classList.toggle('lit', lit.has(p));
+    for (const s of scenes) s.stickyHeight = s.sticky.clientHeight;
+    dirty = false;
   }
-
-  // ---------------------------------------------------------- 导航
-  const navLinks = $$('#chapnav a');
-  const secs = $$('main > .sec');
-  const nav = $('#chapnav');
-  const cover = $('.cover');
-
-  function onScroll() {
-    for (const { sc, items } of steppers) {
-      const r = sc.getBoundingClientRect();
-      if (r.bottom < -50 || r.top > innerHeight + 50) continue;
-      const p = progressOf(sc);
-      sc.style.setProperty('--p', p.toFixed(4));
-      // data-at：到达阈值即出现；之后的同组元素出现时，较早的标为 old（楼梯卡片只保留一张）
+  function closeCards() {
+    castItems.forEach(li => { li.classList.remove('open', 'preview'); li.setAttribute('aria-expanded', 'false'); });
+  }
+  function frame() {
+    queued = false;
+    if (dirty) measure();
+    const y = scrollY, lit = new Set();
+    for (const s of scenes) {
+      const r = geometry.get(s.sc);
+      const p = clamp((y - r.top) / Math.max(1, r.height - s.stickyHeight));
       let last = -1;
-      items.forEach((it, i) => {
-        const on = p >= parseFloat(it.dataset.at);
-        it.classList.toggle('in', on);
-        if (on) last = i;
-      });
-      if (sc.classList.contains('stairs')) items.forEach((it, i) => it.classList.toggle('old', i < last));
-      for (const fn of window.sceneHooks) fn(sc, p);
+      s.items.forEach((it, i) => { if (p >= it.at) last = i; });
+      if (p !== s.p) {
+        // Local variables avoid invalidating an entire scene's descendants.
+        const value = p.toFixed(4);
+        s.motion.forEach(el => el.style.setProperty('--p', value));
+        s.p = p;
+        for (const hook of window.sceneHooks) hook(s.sc, p);
+      }
+      if (last !== s.step) {
+        s.items.forEach((it, i) => {
+          it.el.classList.toggle('in', i <= last);
+          if (s.sc.classList.contains('stairs')) it.el.classList.toggle('old', i < last);
+        });
+        s.step = last;
+      }
+      if (r.top < y + vh * .7 && r.bottom > y + vh * .3) {
+        if (s.sc.classList.contains('stairs') && last >= 0) lit.add(s.items[last].el.dataset.p);
+        if (s.sc.classList.contains('scene-phone') && last >= 1) lit.add('linhe');
+      }
     }
-    const past = cover.getBoundingClientRect().bottom < innerHeight * 0.6;
-    nav.classList.toggle('show', past);
-    cast.classList.toggle('show', past);
-
-    let cur = secs[0].id;
-    for (const s of secs) if (s.getBoundingClientRect().top < innerHeight * 0.5) cur = s.id;
-    navLinks.forEach(a => a.classList.toggle('on', a.dataset.sec === cur));
-
-    // 第四章封面之后切到浅色导航
-    const s4 = $('#s4'), c4 = $('#s4 .chapter-cover');
-    document.body.classList.toggle('is-light', s4.getBoundingClientRect().top < innerHeight * 0.5 && c4.getBoundingClientRect().bottom < innerHeight * 0.5);
-
-    lightCast();
+    const past = geometry.get(cover).bottom < y + vh * .6;
+    if (past !== shown) {
+      nav.classList.toggle('show', past); cast.classList.toggle('show', past);
+      nav.inert = cast.inert = !past;
+      if (!past) closeCards();
+      shown = past;
+    }
+    let cur = sections[0].id;
+    for (const sec of sections) if (geometry.get(sec).top < y + vh * .5) cur = sec.id;
+    if (cur !== active) {
+      navLinks.forEach(a => {
+        const on = a.dataset.sec === cur;
+        a.classList.toggle('on', on);
+        if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+      active = cur;
+    }
+    const isLight = geometry.get(lightCover).bottom < y + vh * .5;
+    if (light !== isLight) { document.body.classList.toggle('is-light', isLight); light = isLight; }
+    for (const m of mentions) {
+      const r = geometry.get(m);
+      if (r.bottom > y + vh * .18 && r.top < y + vh * .82) lit.add(m.dataset.p);
+    }
+    const w = geometry.get(week);
+    if (w && w.top < y + vh * .5 && w.bottom > y + vh * .5) lit.add(week.dataset.who || 'linhe');
+    castItems.forEach(li => {
+      const on = lit.has(li.dataset.p);
+      if (on !== li.classList.contains('lit')) li.classList.toggle('lit', on);
+    });
   }
-  let ticking = false;
-  addEventListener('scroll', () => {
-    if (!ticking) { requestAnimationFrame(() => { onScroll(); ticking = false; }); ticking = true; }
-  }, { passive: true });
-  addEventListener('resize', onScroll);
-  window.refreshScroll = onScroll;
+  function schedule() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+  window.refreshScroll = () => { dirty = true; scenes.forEach(s => { s.p = -1; }); schedule(); };
+  addEventListener('scroll', schedule, {passive: true});
+  addEventListener('resize', window.refreshScroll, {passive: true});
+  addEventListener('pageshow', window.refreshScroll);
+  const resize = new ResizeObserver(window.refreshScroll);
+  resize.observe($('main'));
+  scenes.forEach(s => resize.observe(s.sc));
+  document.fonts.ready.then(window.refreshScroll);
+  $$('img').forEach(img => img.addEventListener('load', window.refreshScroll, {once: true}));
+  nav.inert = cast.inert = true;
 
-  // ---------------------------------------------------------- 渐入 / 高亮 / 章节封面
+  castItems.forEach((li, i) => {
+    li.setAttribute('role', 'button'); li.setAttribute('aria-expanded', 'false');
+    li.setAttribute('aria-label', li.querySelector('img').alt + '的人物介绍');
+    const card = $('.card', li); card.id = 'person-card-' + i;
+    li.setAttribute('aria-controls', card.id);
+    const toggle = () => { const open = !li.classList.contains('open'); closeCards(); li.classList.toggle('open', open); li.setAttribute('aria-expanded', String(open)); };
+    li.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { closeCards(); li.classList.add('preview'); li.setAttribute('aria-expanded', 'true'); } });
+    li.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') closeCards(); });
+    li.addEventListener('click', toggle);
+    li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+  document.addEventListener('pointerdown', e => { if (!cast.contains(e.target)) closeCards(); }, {passive: true});
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCards(); });
+
   $$('.content > p, .content > figure, .content > blockquote, .cases article, .quote-wall blockquote').forEach(el => el.classList.add('fade'));
-  const io = new IntersectionObserver(es => {
-    for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }, { rootMargin: '0px 0px -12% 0px' });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {rootMargin: '0px 0px 80px 0px'});
   $$('.fade, mark, .chapter-cover').forEach(el => io.observe(el));
-
   // ---------------------------------------------------------- 参考资料（自动汇总正文链接）
   const refs = $('#refs');
   if (refs) {
@@ -118,5 +149,5 @@
   }
   $$('main a[href^="http"]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
 
-  onScroll();
+  window.refreshScroll();
 })();

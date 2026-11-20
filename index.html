@@ -12,11 +12,11 @@
 <meta name="theme-color" content="#142232">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/longcang-sub.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=2">
+<link rel="stylesheet" href="css/main.css?v=20261120">
 <script src="vendor/d3.min.js" defer></script>
-<script src="js/main.js?v=2" defer></script>
-<script src="js/charts.js?v=2" defer></script>
-<script src="js/week.js?v=2" defer></script>
+<script src="js/main.js?v=20261120" defer></script>
+<script src="js/charts.js?v=20261120" defer></script>
+<script src="js/week.js?v=20261120" defer></script>
 </head>
 <body>
 
@@ -31,31 +31,30 @@
 
 <!-- 右侧人物栏 -->
 <aside id="cast" aria-label="人物">
-  <p class="cast-hint">▶文章中提到该人物时，对应头像会亮起。也可以随时鼠标悬浮查看人物介绍▶</p>
+  <p class="cast-hint">▶文章中提到该人物时，对应头像会亮起。也可以随时点击或悬浮查看人物介绍▶</p>
   <ul>
     <li data-p="linhe" tabindex="0">
-      <img src="assets/art/avatar-linhe.svg" alt="林禾">
+      <img src="assets/art/avatar-linhe.svg" alt="林禾" width="200" height="200" decoding="async">
       <div class="card"><b>林禾</b>中国传媒大学新闻学2023级本科生。主修课表里，以数据、计算命名的课程只有2门。大三下学期开始自学Python和SQL，准备秋招投互联网内容岗。</div>
     </li>
     <li data-p="zhouyu" tabindex="0">
-      <img src="assets/art/avatar-zhouyu.svg" alt="周屿">
+      <img src="assets/art/avatar-zhouyu.svg" alt="周屿" width="200" height="200" decoding="async">
       <div class="card"><b>周屿</b>中国传媒大学会计学2023级本科生。2025年，学校公示会计学拟撤销；同年他报名新闻学辅修，周三、周五晚上和周末去上课。</div>
     </li>
     <li data-p="sutang" tabindex="0">
-      <img src="assets/art/avatar-sutang.svg" alt="苏棠">
+      <img src="assets/art/avatar-sutang.svg" alt="苏棠" width="200" height="200" decoding="async">
       <div class="card"><b>苏棠</b>北京大学新闻与传播学院本科生，入选2025年“国际传播与国际金融”项目：9月到次年4月在深圳，4月到6月在英国。</div>
     </li>
   </ul>
 </aside>
 
-<div class="sig" aria-hidden="true">guimengqian</div>
 <main>
 <!-- ============================================================ 引子 -->
 <section id="s0" class="sec dark">
 
   <div class="cover" data-progress>
     <div class="sticky">
-      <img class="cover-art" src="assets/art/cover.svg" alt="一张被晚课和周末课程填满的课表，一名学生站在课表后面">
+      <img class="cover-art" src="assets/art/cover.svg" alt="一张被晚课和周末课程填满的课表，一名学生站在课表后面" width="1600" height="1000" decoding="async" fetchpriority="high">
       <h1 class="cover-title hand"><span>第二张</span><span>课表之困</span></h1>
       <p class="cover-sub">新课先写给下一届，在读的人只能自己补</p>
       <p class="scroll-cue">向下滚动 ↓</p>
@@ -64,7 +63,7 @@
 
   <div class="scene-phone" data-progress>
     <div class="sticky">
-      <img class="phone" src="assets/art/phone.svg" alt="手机上的新闻推送：中传“砍掉”16个专业">
+      <img class="phone" src="assets/art/phone.svg" alt="手机上的新闻推送：中传“砍掉”16个专业" width="520" height="900" decoding="async">
       <div class="phone-lines">
         <p data-at="0.08">2026年3月11日，周三深夜</p>
         <p data-at="0.22">中国传媒大学新闻学2023级的<b class="who" data-p="linhe">林禾</b></p>
@@ -75,7 +74,7 @@
   </div>
 
   <div class="content">
-    <figure class="art-wide"><img src="assets/art/clippings.svg" alt="2026年3月关于中传16个专业关停并转的新闻剪报"></figure>
+    <figure class="art-wide"><img src="assets/art/clippings.svg" alt="2026年3月关于中传16个专业关停并转的新闻剪报" width="1100" height="760" decoding="async"></figure>
 
     <p class="big">“还在。”</p>
     <p>新闻学不在名单里。<b class="who" data-p="linhe">林禾</b>松了口气，往下翻，又松不下来了。</p>
@@ -93,7 +92,7 @@
     <p>这不是一所学校的事。教育部2025年4月公布2024年度本科专业备案和审批结果，高教司负责人的说法是：<mark>“撤销、停招专业点数大幅超过增设专业点数”。</mark><a class="src" href="http://www.moe.gov.cn/jyb_xwfb/s271/202504/t20250422_1188246.html">教育部答记者问</a></p>
 
     <figure class="chart" id="fig-moe">
-      <figcaption><b>停招和撤销，加起来是新增的两倍</b><span>全国普通高校本科专业点调整（鼠标悬浮查看详细信息▶）</span></figcaption>
+      <figcaption><b>停招和撤销，加起来是新增的两倍</b><span>全国普通高校本科专业点调整（点击或悬浮查看详细信息▶）</span></figcaption>
       <div class="viz" id="c-moe"></div>
       <p class="source">数据来源：教育部《2024年度普通高等学校本科专业备案和审批结果》及答记者问</p>
     </figure>
@@ -101,7 +100,7 @@
     <p>那新闻传播类自己呢？我们逐行解析了教育部2019—2024年度的备案和审批结果附件，把其中365条新传类（专业代码0503）专业点逐条整理出来。<a class="src" href="http://www.moe.gov.cn/srcsite/A08/moe_1034/s4930/202304/t20230419_1056224.html">教育部2022年度结果</a></p>
 
     <figure class="chart" id="fig-0503">
-      <figcaption><b>新传类不是在缩，而是在换</b><span>新闻传播学类（0503）本科专业点逐年新增与撤销（鼠标悬浮查看详细信息▶）</span></figcaption>
+      <figcaption><b>新传类不是在缩，而是在换</b><span>新闻传播学类（0503）本科专业点逐年新增与撤销（点击或悬浮查看详细信息▶）</span></figcaption>
       <div class="viz" id="c-0503"></div>
       <p class="note">注：传统五专业指新闻学、广播电视学、广告学、传播学、编辑出版学；其他新兴专业含国际新闻与传播、数字出版、时尚传播、会展。新增含二年制第二学士学位点。2023、2024年度附件不再列逐校撤销名单，2025年度未公布备案和审批结果。</p>
       <p class="source">数据来源：教育部2019—2024年度普通高等学校本科专业备案和审批结果附件，逐行统计；2019年附件为扫描件，经OCR后逐行对照原图核对</p>
@@ -119,7 +118,7 @@
 <!-- ============================================================ 第一章 -->
 <section id="s1" class="sec dark">
   <div class="chapter-cover">
-    <img src="assets/art/ch1.svg" alt="">
+    <img src="assets/art/ch1.svg" alt="" width="1600" height="1000" decoding="async">
     <h2 class="hand ch-title ch1-title">誓言下的<br><span>出走</span></h2>
   </div>
 
@@ -131,7 +130,7 @@
     <p>我们逐条编码了<mark>53条招聘启事</mark>：新华社、人民网、中国日报社等中央媒体15条，财新、澎湃、21世纪经济报道等市场化媒体18条，字节、腾讯、快手、百度等互联网大厂20条（内容岗、数据分析岗各10条），共涉及23家用人单位，发布时间从2024年12月到2026年11月。每条启事按13项技能逐一标注“是否被直接点名”。</p>
 
     <figure class="chart" id="fig-circles">
-      <figcaption><b>三类雇主，三张清单</b><span>圆内字号越大，该技能被越多岗位点名（鼠标悬浮查看详细信息▶）</span></figcaption>
+      <figcaption><b>三类雇主，三张清单</b><span>圆内字号越大，该技能被越多岗位点名（点击或悬浮查看详细信息▶）</span></figcaption>
       <div class="viz" id="c-circles"></div>
       <p class="source">数据来源：53条招聘启事编码，见文末“数据与方法”</p>
     </figure>
@@ -165,7 +164,7 @@
 
     <figure class="chart art" id="fig-route">
       <figcaption><b>离开原专业，有多远的路要走？</b></figcaption>
-      <img src="assets/art/route.svg" alt="从新传本科生出发的四条路径：荣誉课程包15学分；辅修25到40学分；联合培养4模块×9周；跨专业考研更换最高学历">
+      <img src="assets/art/route.svg" alt="从新传本科生出发的四条路径：荣誉课程包15学分；辅修25到40学分；联合培养4模块×9周；跨专业考研更换最高学历" width="1000" height="560" decoding="async">
       <p class="source">资料来源：人大全校荣誉课程包（2025）；中传新闻学辅修简章（2025）；北大国际传播与国际金融项目简章（2025）</p>
     </figure>
 
@@ -177,7 +176,7 @@
 <!-- ============================================================ 第二章 -->
 <section id="s2" class="sec dark">
   <div class="chapter-cover">
-    <img src="assets/art/ch2.svg" alt="">
+    <img src="assets/art/ch2.svg" alt="" width="1600" height="1000" decoding="async">
     <h2 class="hand ch-title ch2-title">我是跨界人，<br>还是局外人？</h2>
   </div>
 
@@ -188,7 +187,7 @@
     <p>这一行附注也有价钱。</p>
 
     <figure class="chart" id="fig-cost">
-      <figcaption><b>第二张课表的账单</b><span>三条路径的公开收费与时间条件（鼠标悬浮查看详细信息▶）</span></figcaption>
+      <figcaption><b>第二张课表的账单</b><span>三条路径的公开收费与时间条件（点击或悬浮查看详细信息▶）</span></figcaption>
       <div class="viz" id="c-cost"></div>
       <p class="source">数据来源：中传2025年辅修招生简章；北大FLIC 2025、国际传播与国际金融2025简章</p>
     </figure>
@@ -197,7 +196,7 @@
     <p>16学分的辅修必修课里，他最想上的是数据新闻。真正以“数据”“数字”命名的，只有两门。</p>
 
     <figure class="chart" id="fig-minor">
-      <figcaption><b>16学分必修，“数据”占据了哪一角？</b><span>中国传媒大学新闻学辅修 · 2025年必修课程（面积按学分分配，鼠标悬浮查看课程）</span></figcaption>
+      <figcaption><b>16学分必修，“数据”占据了哪一角？</b><span>中国传媒大学新闻学辅修 · 2025年必修课程（面积按学分分配，点击或悬浮查看课程）</span></figcaption>
       <div class="viz" id="c-minor"></div>
       <p class="source">数据来源：中传2025年辅修招生简章及教学计划（课程表第4页）</p>
     </figure>
@@ -220,7 +219,7 @@
 <!-- ============================================================ 第三章 -->
 <section id="s3" class="sec dark">
   <div class="chapter-cover">
-    <img src="assets/art/ch3.svg" alt="">
+    <img src="assets/art/ch3.svg" alt="" width="1600" height="1000" decoding="async">
     <h2 class="hand ch-title ch3-title">周末复周末</h2>
   </div>
 
@@ -239,7 +238,7 @@
     <input id="wk-range" type="range" min="0" max="167" value="8" aria-label="一周中的时刻">
     <div class="week-body">
       <div class="week-map">
-        <img src="assets/art/weekmap.svg" alt="六个场所：主修教室、辅修晚课、图书馆、宿舍、实习单位、地铁与高铁">
+        <img src="assets/art/weekmap.svg" alt="六个场所：主修教室、辅修晚课、图书馆、宿舍、实习单位、地铁与高铁" width="900" height="600" decoding="async">
         <span class="room" data-room="classroom" style="left:13%;top:41%">主修课堂</span>
         <span class="room" data-room="minor" style="left:45%;top:41%">辅修晚课</span>
         <span class="room" data-room="library" style="left:77%;top:41%">图书馆</span>
@@ -248,7 +247,7 @@
         <span class="room" data-room="transit" style="left:77%;top:89%">地铁 / 高铁</span>
       </div>
       <div class="week-note">
-        <img src="assets/art/notebook.svg" alt="">
+        <img src="assets/art/notebook.svg" alt="" width="360" height="520" decoding="async">
         <div class="note-text">
           <p class="nt-place" id="wk-place"></p>
           <p class="nt-act" id="wk-act"></p>
@@ -268,7 +267,7 @@
 
   <div class="insomnia" data-progress>
     <div class="sticky">
-      <img class="sil" src="assets/art/silhouettes.svg" alt="三个人在深夜看手机的剪影">
+      <img class="sil" src="assets/art/silhouettes.svg" alt="三个人在深夜看手机的剪影" width="1400" height="800" decoding="async">
       <div class="bubbles">
         <!-- 由 charts.js 根据 jd_quotes 填充，每条都可点开原文 -->
       </div>
@@ -283,7 +282,7 @@
 
   <div class="stairs" data-progress>
     <div class="sticky">
-      <img class="stair-art" src="assets/art/staircase.svg" alt="一段楼梯分成三条，各自通向一扇门">
+      <img class="stair-art" src="assets/art/staircase.svg" alt="一段楼梯分成三条，各自通向一扇门" width="1200" height="1000" decoding="async">
       <div class="stair-cards">
         <article data-at="0.04" data-p="linhe">
           <h4>林禾 · 往左</h4>
@@ -313,7 +312,7 @@
 <!-- ============================================================ 第四章（清晨） -->
 <section id="s4" class="sec light">
   <div class="chapter-cover dark">
-    <img src="assets/art/ch4.svg" alt="">
+    <img src="assets/art/ch4.svg" alt="" width="1600" height="1000" decoding="async">
     <h2 class="hand ch-title ch4-title">空教室也会迎来清晨</h2>
   </div>
 
@@ -322,7 +321,7 @@
     <p>中传新闻学院官网列出了6个本科专业及方向的主要课程。我们按课程名称归类：名称含“数据”“计算”“Python”“网页抓取”“自然语言”“统计”“社会网络分析”的，计为数据、计算与AI类课程。<a class="src" href="https://xinwenxueyuan.cuc.edu.cn/7492/list.htm">中传新闻学院</a></p>
 
     <figure class="chart" id="fig-cuc6">
-      <figcaption><b>同一个学院，新方向多出了一整组技术课</b><span>中传新闻学院6个本科专业／方向主要课程中，数据、计算与AI类课程门数（鼠标悬浮查看详细信息▶）</span></figcaption>
+      <figcaption><b>同一个学院，新方向多出了一整组技术课</b><span>中传新闻学院6个本科专业／方向主要课程中，数据、计算与AI类课程门数（点击或悬浮查看详细信息▶）</span></figcaption>
       <div class="viz" id="c-cuc6"></div>
       <p class="note">注：以“数字”命名的课程（如“数字新闻学原理”）单独计算，未计入数据、计算与AI类。</p>
       <p class="source">数据来源：中国传媒大学新闻学院 · 本科专业介绍（2026-11-20核对）</p>
