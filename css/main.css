@@ -364,3 +364,14 @@ body.is-light .tip b { color: #111; }
 @media (prefers-reduced-motion: reduce) {
   .fade, .phone-lines p, .bubble, .stair-cards article, .ch-title, mark { transition: none !important; }
 }
+
+/* 署名水印 */
+.sig {
+  font-family: var(--hand); letter-spacing: .32em; pointer-events: none; user-select: none;
+  color: rgba(232,237,241,.32); font-size: 15px;
+}
+.sig-top { position: absolute; top: calc(100vh - 46px); right: 34px; z-index: 30; transform: rotate(-3deg); }
+.sig-top::before { content: ""; display: inline-block; width: 26px; height: 1px; background: currentColor; vertical-align: middle; margin-right: 10px; }
+.sig-bottom { text-align: center; padding: 10px 0 46px; background: var(--paper); color: rgba(20,34,50,.32); font-size: 17px; }
+.sig-bottom span { display: inline-block; transform: rotate(-2deg); }
+.credits .team { font-size: 18px; color: #142232; letter-spacing: .2em; }

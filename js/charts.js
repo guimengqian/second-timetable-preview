@@ -327,7 +327,7 @@
         const h = g.append('rect').attr('x', L).attr('y', 8).attr('height', 30).attr('width', 0).attr('fill', 'url(#hatchc)').attr('stroke', C.coralL).attr('stroke-dasharray', '4 3');
         h.transition().delay(i * 200).duration(900).attr('width', x(4200) - L);
         g.append('text').attr('x', L + 10).attr('y', 29).attr('fill', '#fff').attr('font-size', 13).text('异地食宿、交通、保险自理：?');
-        bindTip(h, () => `<b>${it.k}</b><br>${it.f}；${it.extra}<br>简章未公布费用金额，图中斜线区仅示意“存在但未知”`);
+        bindTip(h, () => `<b>${it.k}</b><br>${it.f}；${it.extra}<br>简章未列具体金额`);
         label = '0 元学费 ＋ ?';
       }
       g.append('text').attr('x', (it.hidden ? x(4200) : x(it.v)) + 10).attr('y', 29).attr('fill', C.chalk).attr('font-size', 16).attr('font-weight', 700).text(label);
