@@ -119,32 +119,59 @@
 
   // ------------------------------------------------------------ 新传类 0503 逐年（数据到位后启用）
   function moe0503(el, D) {
-    if (!D.moe_0503_years) return;
-    const fig = el.closest('figure');
-    fig.hidden = false;
-    const rows = D.moe_0503_years; // [{year, 新增, 撤销}]
-    const W = 640, H = 300, L = 40, T = 20, B = 40;
-    const x = d3.scaleBand().domain(rows.map(d => d.year)).range([L, W - 10]).padding(.35);
-    const maxV = d3.max(rows, d => Math.max(d['新增'], d['撤销'] || 0));
-    const y = d3.scaleLinear().domain([-maxV, maxV]).range([H - B, T]).nice();
+    const rows = D.moe_0503_years;
+    if (!rows) return;
+    el.closest('figure').hidden = false;
+    const keys = [['传统五专业', C.coral], ['网络与新媒体', C.blue], ['其他新兴专业', 'rgba(232,237,241,.55)']];
+    const W = 680, H = 400, L = 46, T = 30, B = 70;
+    const x = d3.scaleBand().domain(rows.map(d => d.year)).range([L, W - 10]).padding(.32);
+    const y = d3.scaleLinear().domain([-40, 72]).range([H - B, T]);
     const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`);
     const flt = chalkDefs(svg);
-    svg.append('line').attr('x1', L).attr('x2', W - 10).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', C.chalk).attr('stroke-opacity', .6);
-    rows.forEach((d, i) => {
-      const add = svg.append('rect').attr('x', x(d.year)).attr('width', x.bandwidth()).attr('y', y(0)).attr('height', 0).attr('fill', C.blue).attr('filter', flt);
-      add.transition().delay(i * 120).duration(800).attr('y', y(d['新增'])).attr('height', y(0) - y(d['新增']));
-      svg.append('text').attr('x', x(d.year) + x.bandwidth() / 2).attr('y', y(d['新增']) - 6).attr('text-anchor', 'middle').attr('fill', C.chalk).attr('font-size', 12).text('+' + d['新增']);
-      if (d['撤销'] != null) {
-        const del = svg.append('rect').attr('x', x(d.year)).attr('width', x.bandwidth()).attr('y', y(0)).attr('height', 0).attr('fill', C.coral).attr('filter', flt);
-        del.transition().delay(i * 120).duration(800).attr('height', y(-d['撤销']) - y(0));
-        svg.append('text').attr('x', x(d.year) + x.bandwidth() / 2).attr('y', y(-d['撤销']) + 16).attr('text-anchor', 'middle').attr('fill', C.coralL).attr('font-size', 12).text('−' + d['撤销']);
-        bindTip(del, () => `<b>${d.year}年度 · 撤销</b> ${d['撤销']} 个${d.del_note ? '<br>' + d.del_note : ''}`);
-      }
-      bindTip(add, () => `<b>${d.year}年度 · 新增</b> ${d['新增']} 个${d.add_note ? '<br>' + d.add_note : ''}`);
-      svg.append('text').attr('x', x(d.year) + x.bandwidth() / 2).attr('y', H - 12).attr('text-anchor', 'middle').attr('fill', C.ink).attr('font-size', 13).text(d.year);
+    [-40, -20, 0, 20, 40, 60].forEach(v => {
+      svg.append('line').attr('x1', L).attr('x2', W - 10).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', v ? C.grid : C.chalk).attr('stroke-opacity', v ? 1 : .7);
+      svg.append('text').attr('x', L - 8).attr('y', y(v) + 4).attr('text-anchor', 'end').attr('fill', C.ink).attr('font-size', 11).text(v > 0 ? '+' + v : v);
     });
-    if (D.moe_0503_note) document.getElementById('c-0503-note').textContent = D.moe_0503_note;
-    if (D.moe_0503_src) document.getElementById('c-0503-src').textContent = D.moe_0503_src;
+    svg.append('text').attr('x', L).attr('y', T - 12).attr('fill', C.chalk).attr('font-size', 12).text('↑ 新增专业点');
+    svg.append('text').attr('x', L).attr('y', y(-40) + 18).attr('fill', C.coralL).attr('font-size', 12).text('↓ 撤销专业点');
+    rows.forEach((d, i) => {
+      const cx = x(d.year), bw = x.bandwidth();
+      let acc = 0;
+      keys.forEach(([k, c], j) => {
+        const v = d.add[k] || 0;
+        if (!v) return;
+        const r = svg.append('rect').attr('x', cx).attr('width', bw).attr('y', y(0)).attr('height', 0).attr('fill', c).attr('filter', flt);
+        r.transition().delay(i * 140 + j * 80).duration(700).attr('y', y(acc + v)).attr('height', y(acc) - y(acc + v) - 1);
+        bindTip(r, () => `<b>${d.year}年度 · 新增 · ${k}</b>：${v} 个<br>当年新传类新增共 ${d3.sum(Object.values(d.add))} 个${d['二学位'] ? `（含二学位 ${d['二学位']} 个）` : ''}`);
+        acc += v;
+      });
+      svg.append('text').attr('x', cx + bw / 2).attr('y', y(acc) - 6).attr('text-anchor', 'middle').attr('fill', C.chalk).attr('font-size', 12).text('+' + acc);
+      if (d.del) {
+        let dacc = 0;
+        keys.forEach(([k, c], j) => {
+          const v = d.del[k] || 0;
+          if (!v) return;
+          const r = svg.append('rect').attr('x', cx).attr('width', bw).attr('y', y(-dacc)).attr('height', 0).attr('fill', c).attr('filter', flt);
+          r.transition().delay(600 + i * 140 + j * 80).duration(700).attr('height', y(-dacc - v) - y(-dacc) - 1);
+          bindTip(r, () => `<b>${d.year}年度 · 撤销 · ${k}</b>：${v} 个`);
+          dacc += v;
+        });
+        svg.append('text').attr('x', cx + bw / 2).attr('y', y(-dacc) + 16).attr('text-anchor', 'middle').attr('fill', C.coralL).attr('font-size', 12).text('−' + dacc);
+      } else {
+        const g = svg.append('g');
+        g.append('rect').attr('x', cx).attr('width', bw).attr('y', y(0) + 2).attr('height', y(-30) - y(0)).attr('fill', 'none').attr('stroke', C.coralL).attr('stroke-dasharray', '4 4').attr('stroke-opacity', .7);
+        g.append('text').attr('x', cx + bw / 2).attr('y', y(-15) + 4).attr('text-anchor', 'middle').attr('fill', C.coralL).attr('font-size', 18).text('?');
+        bindTip(g, () => `<b>${d.year}年度 · 撤销</b><br>教育部附件不再列逐校撤销名单，只公布全国总数，无法统计新传类`);
+      }
+      svg.append('text').attr('x', cx + bw / 2).attr('y', H - B + 34).attr('text-anchor', 'middle').attr('fill', C.ink).attr('font-size', 13).text(d.year);
+    });
+    const lx0 = L; let lx = lx0;
+    keys.forEach(([k, c]) => {
+      svg.append('rect').attr('x', lx).attr('y', H - 22).attr('width', 12).attr('height', 12).attr('fill', c);
+      const t = svg.append('text').attr('x', lx + 18).attr('y', H - 12).attr('fill', C.ink).attr('font-size', 12).text(k);
+      lx += 34 + t.node().getComputedTextLength();
+    });
+    svg.append('text').attr('x', lx + 6).attr('y', H - 12).attr('fill', C.coralL).attr('font-size', 12).text('?  附件无撤销名单');
   }
 
   // ------------------------------------------------------------ 三类雇主词圈

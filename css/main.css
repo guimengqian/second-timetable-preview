@@ -106,7 +106,7 @@ body.is-light .cast-hint { color: rgba(20,34,50,.55); }
 /* ---------------------------------------------------------------- 通用排版 */
 .sec { position: relative; }
 .content { max-width: var(--col); margin: 0 auto; padding: 40px 0 60px; position: relative; z-index: 2; }
-.content > p { margin: 0 0 1.5em; text-align: justify; }
+.content > p { margin: 0 0 1.5em; text-align: left; }
 .content p.big { font-size: 28px; color: var(--chalk); margin: 1.4em 0 1em; }
 .who { color: var(--chalk); font-weight: 600; border-bottom: 1px dashed rgba(232,237,241,.5); cursor: help; }
 mark {

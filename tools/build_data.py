@@ -152,6 +152,46 @@ MANUAL = {
 }
 
 
+TRAD = {"050301", "050302", "050303", "050304", "050305"}
+
+
+def bucket(code):
+    if code in TRAD:
+        return "传统五专业"
+    if code == "050306T":
+        return "网络与新媒体"
+    return "其他新兴专业"
+
+
+def moe_0503(rows):
+    """教育部附件逐行统计：新传类（0503）每年新增 / 撤销，按专业分组。2023年度起附件不再列撤销名单。"""
+    years = sorted({r["year"] for r in rows})
+    out = []
+    for y in years:
+        ry = [r for r in rows if r["year"] == y]
+        d = {"year": y, "add": Counter(), "del": Counter(), "has_del_list": y <= "2022"}
+        for r in ry:
+            (d["del"] if r["list_type"] == "撤销" else d["add"])[bucket(r["major_code"])] += 1
+        d["add"] = dict(d["add"]); d["del"] = dict(d["del"]) if d["has_del_list"] else None
+        d["二学位"] = sum(1 for r in ry if r["years"] == "二年" and r["list_type"] != "撤销")
+        out.append(d)
+    four = [r for r in rows if r["years"] == "四年"]
+    trad_add_19_22 = sum(1 for r in four if r["major_code"] in TRAD and r["list_type"] != "撤销" and r["year"] <= "2022")
+    trad_del_19_22 = sum(1 for r in rows if r["major_code"] in TRAD and r["list_type"] == "撤销")
+    nm_add = sum(1 for r in rows if r["major_code"] == "050306T" and r["list_type"] != "撤销")
+    nm_del = sum(1 for r in rows if r["major_code"] == "050306T" and r["list_type"] == "撤销")
+    ad_del = sum(1 for r in rows if r["major_code"] == "050303" and r["list_type"] == "撤销")
+    ad_add = sum(1 for r in rows if r["major_code"] == "050303" and r["list_type"] != "撤销" and r["year"] <= "2022")
+    all_add = sum(1 for r in rows if r["list_type"] != "撤销")
+    all_del = sum(1 for r in rows if r["list_type"] == "撤销")
+    bj = [r for r in rows if r["beijing"] == "是"]
+    facts = {"trad_add_19_22_4yr": trad_add_19_22, "trad_del_19_22": trad_del_19_22, "netmedia_add_19_24": nm_add,
+             "netmedia_del_19_24": nm_del, "ad_del_19_22": ad_del, "ad_add_19_22": ad_add, "all_add_19_24": all_add,
+             "all_del_19_22": all_del, "beijing_rows": len(bj),
+             "beijing_del": [f'{r["year"]} {r["school"]} {r["major_name"]}' for r in bj if r["list_type"] == "撤销"]}
+    return {"moe_0503_years": out, "moe_0503_facts": facts}
+
+
 def main():
     story = json.load(open(os.path.join(ROOT, "story-data.json"), encoding="utf-8"))
     data = {
@@ -162,12 +202,9 @@ def main():
         "costs": story["costs"],
         **MANUAL,
     }
-    moe = os.path.join(ROOT, "research", "moe", "moe_0503_summary.csv")
-    if os.path.exists(moe):
-        data["moe_0503_summary"] = read(moe)
-    nat = os.path.join(ROOT, "research", "moe", "moe_national_totals.csv")
-    if os.path.exists(nat):
-        data["moe_national"] = read(nat)
+    rows_path = os.path.join(ROOT, "research", "moe", "moe_0503_rows.csv")
+    if os.path.exists(rows_path):
+        data.update(moe_0503(read(rows_path)))
     os.makedirs(os.path.join(ROOT, "assets", "data"), exist_ok=True)
     with open(os.path.join(ROOT, "assets", "data", "story.json"), "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
