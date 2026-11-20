@@ -1,0 +1,5 @@
+﻿id,program_id,source_ids,year,date,direction,metric,count,origin,destination,entry_cohort,applicants,actual_participants,language_breakdown,method,boundary
+flic-admit-2024,pku-flic-2024,"[""pku-flic-admit24""]",2024,2024-05-17,in,公开列示录取,6,外国语学院,外国语言与国际传播,2023,,,,数表内6条“是”记录,录取表6行；入项年级2023级。
+flic-admit-2025,pku-flic-2025,"[""pku-flic-admit25""]",2025,2025-05-19,in,公开列示录取,8,外国语学院,外国语言与国际传播,2024,,,"{""俄语"": 3, ""英语"": 1, ""乌尔都语"": 1, ""菲律宾语"": 1, ""蒙古语"": 1, ""朝鲜语"": 1}",数表内8条录取记录并按专业汇总,录取表8行；入项年级2024级。
+finance-provisional-2025,pku-finance-2025,"[""pku-finance-provisional25""]",2025,2025-05-26,out,拟录取公示,5,新闻与传播学院,国际传播与国际金融,2024,,,,正文明确5名；与表中5行交叉核对,正文与5行拟录取名单交叉核对。
+flic-completion-2024,,"[""pku-flic-complete24""]",2024,2024-06-17,in,结业报道人数,4,外国语学院,外国语言与国际传播,,,,,采用正文FLIC项目分项人数,2024年6月17日仪式的FLIC项目结业人数。

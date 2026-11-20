@@ -1,0 +1,6 @@
+﻿id,program_id,source_ids,item,amount_yuan,formula,basis,actual_expenditure,boundary
+cuc-degree-fee,cuc-news-2025,"[""cuc-minor25""]",40学分对应课程收费,5200,40 × 130,按公布单价与最低学分门槛计算,False,按40学分与130元/学分计算；学位条件包括绩点、主修学位及专业大类要求。
+cuc-certificate-fee,cuc-news-2025,"[""cuc-minor25""]",25学分对应课程收费,3250,25 × 130,不含毕业论文的证书最低学分门槛,False,按25学分与130元/学分计算；证书要求完成全部必修课及主修毕业。
+cuc-extra-credits,cuc-news-2025,"[""cuc-minor25""]",实际新增学分,,,辅修学分可认定为主修通识拓展课组学分,False,辅修学分可通过认定衔接主修通识教育拓展课组。
+finance-tuition,pku-finance-2025,"[""pku-finance25""]",项目另收学费,0,,简章明确不另外收取学费,False,项目收费条款：不另外收取学费。
+finance-living,pku-finance-2025,"[""pku-finance25""]",深圳、英国住宿生活交通保险,,,学生自理，设奖学金,False,学生自理，项目设奖学金。

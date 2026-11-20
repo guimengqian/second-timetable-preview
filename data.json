@@ -1,0 +1,1600 @@
+{
+  "schema_version": "2.0",
+  "updated": "2026-11-18",
+  "status": "public-source-reporting-draft",
+  "scope": "2023—2025年北京高校公开项目案例；人民网2025届招聘岗位要求",
+  "sources": [
+    {
+      "id": "pku",
+      "school": "北京大学",
+      "date": "2024-04-08",
+      "title": "2024年“国际传播与国际金融”跨学科本科联合培养项目招生简章",
+      "url": "https://sjc.pku.edu.cn/info/1038/12792.htm",
+      "kind": "联合培养",
+      "direction": "out",
+      "summary": "新传学生在第二学年前往汇丰商学院学习国际金融。",
+      "boundary": "2024年招生计划约15人；项目课程可替代或抵免原培养要求，最高38学分。",
+      "checked": "2026-11-18",
+      "publisher": "北京大学",
+      "provenance": "学校官方网页",
+      "anchor": "正文：培养安排、学分抵免、招生对象和费用",
+      "pathway": false,
+      "timeline": true
+    },
+    {
+      "id": "thu",
+      "school": "清华大学",
+      "date": "2023-11-22",
+      "title": "2023—2024学年度专业设置、当年新增专业、停招专业名单",
+      "url": "https://www.tsinghua.edu.cn/info/1098/108143.htm",
+      "kind": "辅修学位",
+      "direction": "in",
+      "summary": "新闻学仅面向在校生设置辅修学位。",
+      "boundary": "新闻学辅修学位面向清华在校生。",
+      "checked": "2026-11-18",
+      "publisher": "清华大学",
+      "provenance": "学校官方网页",
+      "anchor": "专业设置说明：新闻学辅修学位",
+      "pathway": true,
+      "timeline": true
+    },
+    {
+      "id": "bnu",
+      "school": "北京师范大学",
+      "date": "2024-06-04",
+      "title": "北师大获批4个2024年北京市双学士学位复合型人才培养项目",
+      "url": "https://news.bnu.edu.cn/zx/zhxw/ae3d784a3d6448399f3606a5ec0b28bd.htm",
+      "kind": "双学士项目",
+      "direction": "cross",
+      "summary": "“传播学+人工智能”双学士学位复合型人才培养项目获批。",
+      "boundary": "获批项目采用传播学与人工智能的双学士学位培养安排。",
+      "checked": "2026-11-18",
+      "publisher": "北京师范大学",
+      "provenance": "学校官方网页",
+      "anchor": "正文：传播学+人工智能项目获批",
+      "pathway": true,
+      "timeline": true
+    },
+    {
+      "id": "cuc",
+      "school": "中国传媒大学",
+      "date": "2024-07-27",
+      "title": "我校召开面向人工智能的本科专业重构与升级研讨会",
+      "url": "https://www.cuc.edu.cn/cucnews/_t114/2024/0724/c1901a241451/pagem.psp",
+      "kind": "专业方向",
+      "direction": "cross",
+      "summary": "传播学（智能与计算传播方向）列入本科专业方向调整。",
+      "boundary": "培养层级：传播学本科专业方向。",
+      "checked": "2026-11-18",
+      "publisher": "中国传媒大学",
+      "provenance": "学校官方网页",
+      "anchor": "正文：传播学（智能与计算传播方向）",
+      "pathway": true,
+      "timeline": true
+    },
+    {
+      "id": "ruc",
+      "school": "中国人民大学",
+      "date": "2025-06-12",
+      "title": "2025新华网高考情报局：中国人民大学人才培养介绍",
+      "url": "https://news.ruc.edu.cn/703145355171270.html",
+      "kind": "自主辅修",
+      "direction": "open",
+      "summary": "全校专业教育模块开放学习；荣誉辅修采用15学分轻型课程包。",
+      "boundary": "荣誉辅修采用15学分轻型课程包。",
+      "checked": "2026-11-18",
+      "publisher": "中国人民大学",
+      "provenance": "学校官方网页",
+      "anchor": "正文：模块开放学习、15学分荣誉辅修",
+      "pathway": true,
+      "timeline": true
+    },
+    {
+      "id": "pku-flic24",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2024-04-15",
+      "title": "2024年“外国语言与国际传播”项目招生简章",
+      "url": "https://sfl.pku.edu.cn/jxgl/bks/tz/27wyx157869.htm",
+      "kind": "荣誉证书项目",
+      "direction": "in",
+      "summary": "外国语学院2023级学生可申请；公开必修课程及推荐选修目录。",
+      "boundary": "必修6门、14学分；推荐选修目录去重后19门，选修要求10学分。",
+      "anchor": "二、招生对象；三、培养方案课程表；四、获得荣誉证书要求",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "pku-flic25",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2025-04-15",
+      "title": "2025年“外国语言与国际传播”联合项目（FLIC）招生简章",
+      "url": "https://sfl.pku.edu.cn/tzgg/27wyx167502.htm",
+      "kind": "荣誉证书项目",
+      "direction": "in",
+      "summary": "外国语学院2024级、专业排名前50%（含）且未参加双学位学习者可报名；计划20人。",
+      "boundary": "授予联合项目荣誉证书；必修14、选修10、研究2、实践2学分。",
+      "anchor": "二、招生对象；三、培养方案；四、获得荣誉证书要求",
+      "pathway": true,
+      "timeline": true,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "pku-flic-admit24",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2024-05-17",
+      "title": "2024年“外国语言与国际传播”录取名单公示",
+      "url": "https://sfl.pku.edu.cn/jxgl/bks/27wyx158724.htm",
+      "kind": "录取公示",
+      "direction": "in",
+      "summary": "公示表中6条记录均标为录取，院系为外国语学院。",
+      "boundary": "按录取表中6条“是”记录汇总，生源院系为外国语学院。",
+      "anchor": "正文录取表：6条“是”记录",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "pku-flic-admit25",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2025-05-19",
+      "title": "2025年“外国语言与国际传播”项目录取名单公示",
+      "url": "https://sfl.pku.edu.cn/jxgl/bks/tz/27wyx168069.htm",
+      "kind": "录取公示",
+      "direction": "in",
+      "summary": "录取表有8条记录：俄语3人，另5个语言专业各1人。",
+      "boundary": "按录取表的专业与录取列汇总，共涉及6个语言专业。",
+      "anchor": "正文录取表：专业及是否录取列",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "pku-flic-complete24",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2024-06-19",
+      "title": "2024年外国语学院本科跨学科教育项目结业仪式顺利举行",
+      "url": "https://sfl.pku.edu.cn/jxgl/bks/tz/27wyx159753.htm",
+      "kind": "结业报道",
+      "direction": "in",
+      "summary": "报道记载2024年6月17日举行的仪式中，FLIC项目4名学生结业。",
+      "boundary": "采用结业报道中的FLIC项目分项人数：4人。",
+      "anchor": "正文：仪式日期；分项目结业人数",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "pku-finance25",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2025-04-14",
+      "title": "2025年“国际传播与国际金融”跨学科本科联合培养项目招生简章",
+      "url": "https://sjc.pku.edu.cn/info/1038/13540.htm",
+      "kind": "联合培养",
+      "direction": "out",
+      "summary": "面向2024级新传及元培新闻方向学生，计划约15人；第二学年在深圳、英国学习国际金融。",
+      "boundary": "项目不另收学费，住宿、生活、交通与保险由学生自理；最高抵免38学分。",
+      "anchor": "正文培养安排、费用；招生对象；五、其他",
+      "pathway": true,
+      "timeline": true,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "pku-finance-provisional25",
+      "school": "北京大学",
+      "publisher": "北京大学",
+      "date": "2025-05-26",
+      "title": "2025年“国际传播与国际金融”项目初录取名单公示",
+      "url": "https://sjc.pku.edu.cn/info/1038/13615.htm",
+      "kind": "拟录取公示",
+      "direction": "out",
+      "summary": "公告明确拟录取5名新闻与传播学院同学。",
+      "boundary": "正文“拟录取5名”与表中5行名单交叉核对。",
+      "anchor": "正文首段及5行名单",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "cuc-minor-notice25",
+      "school": "中国传媒大学",
+      "publisher": "中国传媒大学",
+      "date": "2025-04-01",
+      "title": "关于2025年辅修专业报名的通知",
+      "url": "https://jwc.cuc.edu.cn/2025/0401/c6471a253846/page.htm",
+      "kind": "辅修报名通知",
+      "direction": "in",
+      "summary": "教务处公布2025年辅修报名信息，并链接新闻学辅修招生简章。",
+      "boundary": "新闻学招生简章由教务处通知附件链接提供。",
+      "anchor": "正文附件：新闻学专业招生简章",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "学校官方网页",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "cuc-minor25",
+      "school": "中国传媒大学",
+      "publisher": "中国传媒大学",
+      "date": "2025-04-01",
+      "title": "新闻学专业2025年辅修招生简章及教学计划",
+      "url": "https://jwc.cuc.edu.cn/_upload/article/files/a2/61/24a43fbe4205b88bba7295844445/54f7d5f7-2be3-436a-89fb-38efc9aa90de.pdf",
+      "kind": "辅修学位/证书",
+      "direction": "in",
+      "summary": "非新闻传播学类本科生可申请；计划150人。学位与证书分别设40、25学分等条件，收费130元/学分。",
+      "boundary": "报名条件、获证要求与收费见PDF第2—3页；18门课程见第4页。",
+      "anchor": "PDF第2—3页：对象、学位/证书、收费、计划；第4页：18行课程表",
+      "pathway": true,
+      "timeline": true,
+      "provenance": "学校官方PDF（由教务处通知链接）",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "people-jobs25",
+      "school": "吉林大学就业网",
+      "publisher": "吉林大学就业网",
+      "date": "2024-12-09",
+      "title": "人民网股份有限公司2025校园招聘",
+      "url": "https://jdjywpt.jlu.edu.cn/mportal/recruit/details?id=fa4157d5180c45039ebebfb88e345304",
+      "kind": "招聘文本",
+      "direction": "context",
+      "summary": "整理全媒体记者/编辑、视频编导、外语编辑、数据分析工程师4类岗位要求。",
+      "boundary": "按启事中的4类岗位整理任职要求与优先条件；四语种外语编辑合为一类。",
+      "anchor": "招聘岗位介绍：一、三、四、五；各岗位任职资格",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "高校就业网转载；雇主为人民网股份有限公司",
+      "checked": "2026-11-18"
+    },
+    {
+      "id": "people-daily25",
+      "school": "人民日报社",
+      "publisher": "人民日报社",
+      "date": "2024-12-11",
+      "title": "人民日报社2025年公开招聘应届高校毕业生公告",
+      "url": "https://paper.people.com.cn/rmrb/pc/attachement/202412/11/5e16aa57-c8f7-4bf6-81dd-55524cb43042.pdf",
+      "kind": "招聘资格公告",
+      "direction": "context",
+      "summary": "报纸公告说明，专业条件按最高学历对应专业把握。",
+      "boundary": "专业资格条款见人民日报2024年12月11日第15版。",
+      "anchor": "人民日报2024年12月11日第15版（PDF第1页）：招聘条件、专业口径",
+      "pathway": false,
+      "timeline": false,
+      "provenance": "雇主报纸官方PDF",
+      "checked": "2026-11-18"
+    }
+  ],
+  "programs": [
+    {
+      "id": "pku-finance-2024",
+      "school": "北京大学",
+      "year": 2024,
+      "name": "国际传播与国际金融",
+      "kind": "联合培养",
+      "direction": "out",
+      "source_ids": [
+        "pku"
+      ],
+      "entry_cohort": 2023,
+      "plan_count": 15,
+      "plan_approximate": true,
+      "credential": "跨学科联合培养项目证书",
+      "credit_waiver_max": 38,
+      "extra_tuition_yuan": 0,
+      "actual_participants": null
+    },
+    {
+      "id": "thu-news-2023",
+      "school": "清华大学",
+      "year": 2023,
+      "name": "新闻学辅修",
+      "kind": "辅修学位",
+      "direction": "in",
+      "source_ids": [
+        "thu"
+      ],
+      "entry_cohort": null,
+      "plan_count": null,
+      "credential": "新闻学辅修学位",
+      "actual_participants": null
+    },
+    {
+      "id": "bnu-ai-2024",
+      "school": "北京师范大学",
+      "year": 2024,
+      "name": "传播学+人工智能",
+      "kind": "双学士项目",
+      "direction": "cross",
+      "source_ids": [
+        "bnu"
+      ],
+      "entry_cohort": null,
+      "plan_count": null,
+      "credential": "双学士学位项目",
+      "status": "获批",
+      "actual_participants": null
+    },
+    {
+      "id": "cuc-computational-2024",
+      "school": "中国传媒大学",
+      "year": 2024,
+      "name": "传播学（智能与计算传播方向）",
+      "kind": "专业方向",
+      "direction": "cross",
+      "source_ids": [
+        "cuc"
+      ],
+      "entry_cohort": null,
+      "plan_count": null,
+      "credential": "主修专业方向",
+      "actual_participants": null
+    },
+    {
+      "id": "ruc-open-2025",
+      "school": "中国人民大学",
+      "year": 2025,
+      "name": "开放专业模块与荣誉辅修",
+      "kind": "自主辅修",
+      "direction": "open",
+      "source_ids": [
+        "ruc"
+      ],
+      "entry_cohort": null,
+      "plan_count": null,
+      "credential": "荣誉辅修",
+      "honor_credits": 15,
+      "actual_participants": null
+    },
+    {
+      "id": "pku-flic-2024",
+      "school": "北京大学",
+      "year": 2024,
+      "name": "外国语言与国际传播",
+      "kind": "荣誉证书项目",
+      "direction": "in",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "entry_cohort": 2023,
+      "eligibility": "外国语学院本年级；本专业前50%（含）；未参加双学位学习",
+      "plan_count": 20,
+      "plan_approximate": false,
+      "credential": "联合项目荣誉证书",
+      "stated_total_credits": 30,
+      "required_course_credits": 14,
+      "elective_selected_credits": 10,
+      "research_credits": 2,
+      "practice_credits": 2,
+      "component_sum": 28,
+      "credit_issue": "简章总学分30；分项合计28",
+      "actual_participants": null
+    },
+    {
+      "id": "pku-flic-2025",
+      "school": "北京大学",
+      "year": 2025,
+      "name": "外国语言与国际传播",
+      "kind": "荣誉证书项目",
+      "direction": "in",
+      "source_ids": [
+        "pku-flic25"
+      ],
+      "entry_cohort": 2024,
+      "eligibility": "外国语学院本年级；本专业前50%（含）；未参加双学位学习",
+      "plan_count": 20,
+      "plan_approximate": false,
+      "credential": "联合项目荣誉证书",
+      "stated_total_credits": 30,
+      "required_course_credits": 14,
+      "elective_selected_credits": 10,
+      "research_credits": 2,
+      "practice_credits": 2,
+      "component_sum": 28,
+      "credit_issue": "简章总学分30；分项合计28",
+      "actual_participants": null
+    },
+    {
+      "id": "pku-finance-2025",
+      "school": "北京大学",
+      "year": 2025,
+      "name": "国际传播与国际金融",
+      "kind": "联合培养",
+      "direction": "out",
+      "source_ids": [
+        "pku-finance25"
+      ],
+      "entry_cohort": 2024,
+      "eligibility": "新传一年级及元培新闻传播方向；联合选拔",
+      "plan_count": 15,
+      "plan_approximate": true,
+      "credential": "跨学科联合培养项目证书",
+      "credit_waiver_max": 38,
+      "extra_tuition_yuan": 0,
+      "travel_living_insurance": "自理；金额未披露",
+      "scholarship": "设专项奖学金；金额未披露",
+      "withdrawal": "入选后不可中途退出",
+      "double_degree": "不能同时修读双学位",
+      "actual_participants": null
+    },
+    {
+      "id": "cuc-news-2025",
+      "school": "中国传媒大学",
+      "year": 2025,
+      "name": "新闻学辅修",
+      "kind": "辅修学位/证书",
+      "direction": "in",
+      "source_ids": [
+        "cuc-minor-notice25",
+        "cuc-minor25"
+      ],
+      "entry_cohort": null,
+      "eligibility": "校内全日制本科；已修必修课全部及格；主修非新闻传播学类",
+      "plan_count": 150,
+      "plan_approximate": false,
+      "credential": "辅修学士学位或专业证书（有不同条件）",
+      "degree_min_credits": 40,
+      "certificate_min_credits": 25,
+      "degree_gpa_min": 2.0,
+      "required_course_credits": 16,
+      "elective_catalog_credits": 19,
+      "thesis_credits": 5,
+      "fee_per_credit_yuan": 130,
+      "schedule": "主要周末；部分周三或周五晚间",
+      "credit_recognition": "可认定为主修通识教育拓展课组学分",
+      "degree_note": "在主修学位证书中注明；不单独发放学位证书；双学士学生仅可获专业证书",
+      "end_rule": "主修学业结束，辅修同时结束",
+      "actual_participants": null
+    }
+  ],
+  "flows": [
+    {
+      "id": "flic-admit-2024",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic-admit24"
+      ],
+      "year": 2024,
+      "date": "2024-05-17",
+      "direction": "in",
+      "metric": "公开列示录取",
+      "count": 6,
+      "origin": "外国语学院",
+      "destination": "外国语言与国际传播",
+      "entry_cohort": 2023,
+      "applicants": null,
+      "actual_participants": null,
+      "language_breakdown": null,
+      "method": "数表内6条“是”记录",
+      "boundary": "录取表6行；入项年级2023级。"
+    },
+    {
+      "id": "flic-admit-2025",
+      "program_id": "pku-flic-2025",
+      "source_ids": [
+        "pku-flic-admit25"
+      ],
+      "year": 2025,
+      "date": "2025-05-19",
+      "direction": "in",
+      "metric": "公开列示录取",
+      "count": 8,
+      "origin": "外国语学院",
+      "destination": "外国语言与国际传播",
+      "entry_cohort": 2024,
+      "applicants": null,
+      "actual_participants": null,
+      "language_breakdown": {
+        "俄语": 3,
+        "英语": 1,
+        "乌尔都语": 1,
+        "菲律宾语": 1,
+        "蒙古语": 1,
+        "朝鲜语": 1
+      },
+      "method": "数表内8条录取记录并按专业汇总",
+      "boundary": "录取表8行；入项年级2024级。"
+    },
+    {
+      "id": "finance-provisional-2025",
+      "program_id": "pku-finance-2025",
+      "source_ids": [
+        "pku-finance-provisional25"
+      ],
+      "year": 2025,
+      "date": "2025-05-26",
+      "direction": "out",
+      "metric": "拟录取公示",
+      "count": 5,
+      "origin": "新闻与传播学院",
+      "destination": "国际传播与国际金融",
+      "entry_cohort": 2024,
+      "applicants": null,
+      "actual_participants": null,
+      "language_breakdown": null,
+      "method": "正文明确5名；与表中5行交叉核对",
+      "boundary": "正文与5行拟录取名单交叉核对。"
+    },
+    {
+      "id": "flic-completion-2024",
+      "program_id": null,
+      "source_ids": [
+        "pku-flic-complete24"
+      ],
+      "year": 2024,
+      "date": "2024-06-17",
+      "direction": "in",
+      "metric": "结业报道人数",
+      "count": 4,
+      "origin": "外国语学院",
+      "destination": "外国语言与国际传播",
+      "entry_cohort": null,
+      "applicants": null,
+      "actual_participants": null,
+      "language_breakdown": null,
+      "method": "采用正文FLIC项目分项人数",
+      "boundary": "2024年6月17日仪式的FLIC项目结业人数。"
+    }
+  ],
+  "curricula": [
+    {
+      "id": "pku-flic-2024:01833920",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01833920",
+      "name": "马克思主义新闻观",
+      "credits": 2,
+      "category": "必修",
+      "semester": "一下",
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01830200",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01830200",
+      "name": "新闻理论",
+      "credits": 2,
+      "category": "必修",
+      "semester": "一下",
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834200",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834200",
+      "name": "传播学理论",
+      "credits": 3,
+      "category": "必修",
+      "semester": "一下",
+      "hours": null,
+      "weekly_hours": 3,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834339",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834339",
+      "name": "国际传播学",
+      "credits": 3,
+      "category": "必修",
+      "semester": "一下",
+      "hours": null,
+      "weekly_hours": 3,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01833740",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01833740",
+      "name": "传媒伦理与法律法规",
+      "credits": 2,
+      "category": "必修",
+      "semester": "三上",
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:new-culture",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": null,
+      "name": "中国文化走出去实践课",
+      "credits": 2,
+      "category": "必修",
+      "semester": "根据实际开课学期",
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "简章要求制作5个采编视频作品",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01833750",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01833750",
+      "name": "世界新闻史",
+      "credits": 3,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 3,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834337",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834337",
+      "name": "新闻采访写作",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01830490",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01830490",
+      "name": "广告媒体研究",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01833850",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01833850",
+      "name": "传播学研究方法",
+      "credits": 3,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 3,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834346",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834346",
+      "name": "国际新闻实践与案例",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分；原表重复列示，按课程代码与名称合并",
+      "source_occurrences": 2
+    },
+    {
+      "id": "pku-flic-2024:01834140",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834140",
+      "name": "媒介与社会变迁",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:new-marketing",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": null,
+      "name": "国际营销传播",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01832150",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01832150",
+      "name": "媒体与国际关系",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834240",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834240",
+      "name": "视频采访与写作",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01832910",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01832910",
+      "name": "视频编辑",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01830330",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01830330",
+      "name": "国际传播",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01831750",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01831750",
+      "name": "记录片与专题片创作",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分；题名“记录片”沿用原表",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01832660",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01832660",
+      "name": "媒介经营管理",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834290",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834290",
+      "name": "中国新闻史",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01833970",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01833970",
+      "name": "影视文化与批评",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01831990",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01831990",
+      "name": "跨文化交流学",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01833280",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01833280",
+      "name": "新闻评论",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01830710",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01830710",
+      "name": "新闻摄影",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "pku-flic-2024:01834345",
+      "program_id": "pku-flic-2024",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "course_code": "01834345",
+      "name": "非虚构写作",
+      "credits": 2,
+      "category": "推荐选修",
+      "semester": null,
+      "hours": null,
+      "weekly_hours": 2,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "推荐选修，选满10学分",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030266",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030266",
+      "name": "中国新闻传播史",
+      "credits": 2,
+      "category": "必修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030026",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030026",
+      "name": "新闻理论",
+      "credits": 2,
+      "category": "必修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030267",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030267",
+      "name": "新闻采访",
+      "credits": 2,
+      "category": "必修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030075",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030075",
+      "name": "数据新闻报道概论",
+      "credits": 2,
+      "category": "必修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030224",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030224",
+      "name": "外国新闻传播史",
+      "credits": 2,
+      "category": "必修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030248",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030248",
+      "name": "新闻写作",
+      "credits": 2,
+      "category": "必修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030210",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030210",
+      "name": "全媒体新闻编辑",
+      "credits": 2,
+      "category": "必修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030213",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030213",
+      "name": "数字新闻学原理",
+      "credits": 2,
+      "category": "必修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030073",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030073",
+      "name": "音视频基础",
+      "credits": 2,
+      "category": "选修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030025",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030025",
+      "name": "媒介融合",
+      "credits": 2,
+      "category": "选修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030031",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030031",
+      "name": "广播新闻",
+      "credits": 2,
+      "category": "选修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030014",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030014",
+      "name": "新闻心理学",
+      "credits": 2,
+      "category": "选修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030251",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030251",
+      "name": "传播学概论",
+      "credits": 2,
+      "category": "选修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030069",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030069",
+      "name": "体育传播与新闻报道",
+      "credits": 2,
+      "category": "选修",
+      "semester": "秋",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030270",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030270",
+      "name": "新媒体文化",
+      "credits": 2,
+      "category": "选修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030096",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030096",
+      "name": "社会科学研究方法",
+      "credits": 2,
+      "category": "选修",
+      "semester": "春",
+      "hours": 32,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030269",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030269",
+      "name": "新闻传播实践工作坊",
+      "credits": 3,
+      "category": "选修",
+      "semester": "春",
+      "hours": 48,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    },
+    {
+      "id": "cuc-news-2025:2011030262",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "course_code": "2011030262",
+      "name": "毕业论文",
+      "credits": 5,
+      "category": "毕业论文",
+      "semester": "春",
+      "hours": 80,
+      "weekly_hours": null,
+      "evidence": "课程表列示",
+      "taught_skills_verified": false,
+      "note": "课程表第4页，学时按表列示。",
+      "source_occurrences": 1
+    }
+  ],
+  "jobs": [
+    {
+      "id": "people-reporter",
+      "source_ids": [
+        "people-jobs25"
+      ],
+      "employer": "人民网股份有限公司",
+      "recruitment_year": 2025,
+      "publication_date": "2024-12-09",
+      "name": "全媒体记者/编辑",
+      "degree_min": "硕士研究生",
+      "majors": "新闻、传播等相关专业",
+      "required_skills": [
+        "新闻采写与选题",
+        "新媒体传播知识",
+        "图文及视频编辑软件",
+        "独立视频制作"
+      ],
+      "preferred_skills": [
+        "普通话一级甲等"
+      ],
+      "anchor": "一、全媒体记者/编辑：任职资格2、3、5、6",
+      "headcount": null,
+      "sample_status": "人民网2025届招聘岗位分类",
+      "boundary": "任职资格概括转述；要求与优先条件分别编码。"
+    },
+    {
+      "id": "people-video",
+      "source_ids": [
+        "people-jobs25"
+      ],
+      "employer": "人民网股份有限公司",
+      "recruitment_year": 2025,
+      "publication_date": "2024-12-09",
+      "name": "视频编导",
+      "degree_min": "硕士研究生",
+      "majors": "编导、摄影摄像、影视后期制作等相关专业",
+      "required_skills": [
+        "策划、文字与新闻素养",
+        "拍摄设备及视频制作软件",
+        "视频制作全流程与后期"
+      ],
+      "preferred_skills": [
+        "突出的摄影能力"
+      ],
+      "anchor": "三、视频编导：任职资格2、3、4",
+      "headcount": null,
+      "sample_status": "人民网2025届招聘岗位分类",
+      "boundary": "任职资格概括转述；要求与优先条件分别编码。"
+    },
+    {
+      "id": "people-language",
+      "source_ids": [
+        "people-jobs25"
+      ],
+      "employer": "人民网股份有限公司",
+      "recruitment_year": 2025,
+      "publication_date": "2024-12-09",
+      "name": "越南语/意大利语/乌尔都语/印地语编辑",
+      "degree_min": "本科",
+      "majors": "对应外语相关专业",
+      "required_skills": [
+        "中外文写作、口语及新闻编译",
+        "新闻选题及新媒体知识",
+        "图文和视频编辑软件"
+      ],
+      "preferred_skills": [
+        "视频、动画制作或新媒体经验"
+      ],
+      "anchor": "四、外语编辑：任职资格2、3、5",
+      "headcount": null,
+      "sample_status": "人民网2025届招聘岗位分类",
+      "boundary": "任职资格概括转述；要求与优先条件分别编码。"
+    },
+    {
+      "id": "people-data",
+      "source_ids": [
+        "people-jobs25"
+      ],
+      "employer": "人民网股份有限公司",
+      "recruitment_year": 2025,
+      "publication_date": "2024-12-09",
+      "name": "数据分析工程师",
+      "degree_min": "本科",
+      "majors": "计算机科学、统计学、数据科学、信息管理等相关专业",
+      "required_skills": [
+        "统计分析与数据挖掘",
+        "将需求转为算法",
+        "机器学习基础",
+        "数据分析软件及关系/非关系数据库"
+      ],
+      "preferred_skills": [
+        "Python或Java",
+        "自然语言处理、大模型训练或大数据框架经验"
+      ],
+      "anchor": "五、数据分析工程师：任职资格2—5",
+      "headcount": null,
+      "sample_status": "人民网2025届招聘岗位分类",
+      "boundary": "任职资格概括转述；要求与优先条件分别编码。"
+    }
+  ],
+  "costs": [
+    {
+      "id": "cuc-degree-fee",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "item": "40学分对应课程收费",
+      "amount_yuan": 5200,
+      "formula": "40 × 130",
+      "basis": "按公布单价与最低学分门槛计算",
+      "actual_expenditure": false,
+      "boundary": "按40学分与130元/学分计算；学位条件包括绩点、主修学位及专业大类要求。"
+    },
+    {
+      "id": "cuc-certificate-fee",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "item": "25学分对应课程收费",
+      "amount_yuan": 3250,
+      "formula": "25 × 130",
+      "basis": "不含毕业论文的证书最低学分门槛",
+      "actual_expenditure": false,
+      "boundary": "按25学分与130元/学分计算；证书要求完成全部必修课及主修毕业。"
+    },
+    {
+      "id": "cuc-extra-credits",
+      "program_id": "cuc-news-2025",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "item": "实际新增学分",
+      "amount_yuan": null,
+      "formula": null,
+      "basis": "辅修学分可认定为主修通识拓展课组学分",
+      "actual_expenditure": false,
+      "boundary": "辅修学分可通过认定衔接主修通识教育拓展课组。"
+    },
+    {
+      "id": "finance-tuition",
+      "program_id": "pku-finance-2025",
+      "source_ids": [
+        "pku-finance25"
+      ],
+      "item": "项目另收学费",
+      "amount_yuan": 0,
+      "formula": null,
+      "basis": "简章明确不另外收取学费",
+      "actual_expenditure": false,
+      "boundary": "项目收费条款：不另外收取学费。"
+    },
+    {
+      "id": "finance-living",
+      "program_id": "pku-finance-2025",
+      "source_ids": [
+        "pku-finance25"
+      ],
+      "item": "深圳、英国住宿生活交通保险",
+      "amount_yuan": null,
+      "formula": null,
+      "basis": "学生自理，设奖学金",
+      "actual_expenditure": false,
+      "boundary": "学生自理，项目设奖学金。"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C01",
+      "claim": "北大2025年两份公示记录了相反方向的跨学科选择：FLIC录取8人、国际金融拟录取5人。",
+      "status": "有公开记录",
+      "source_ids": [
+        "pku-flic-admit25",
+        "pku-finance-provisional25"
+      ],
+      "boundary": "分别采用两份公示原文的录取状态。"
+    },
+    {
+      "id": "C02",
+      "claim": "FLIC2025录取表含俄语3人和另5种语言专业各1人。",
+      "status": "可汇总",
+      "source_ids": [
+        "pku-flic-admit25"
+      ],
+      "boundary": "依据2025录取表专业列汇总。"
+    },
+    {
+      "id": "C03",
+      "claim": "FLIC授予荣誉证书，北大金融项目授予联合培养证书，中传新闻学设辅修学位及证书条件。",
+      "status": "简章明确",
+      "source_ids": [
+        "pku-flic25",
+        "pku-finance25",
+        "cuc-minor25"
+      ],
+      "boundary": "凭证名称与获证条件按项目简章记录。"
+    },
+    {
+      "id": "C04",
+      "claim": "中传新闻学40及25学分门槛按130元/学分计算为5200及3250元。",
+      "status": "算术估算",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "boundary": "最低学分要求 × 公布单价。"
+    },
+    {
+      "id": "C05",
+      "claim": "中传2025新闻学辅修课程表将数据新闻报道概论、数字新闻学原理列为必修。",
+      "status": "课程表明确",
+      "source_ids": [
+        "cuc-minor25"
+      ],
+      "boundary": "两门课程各2学分、32学时。"
+    },
+    {
+      "id": "C06",
+      "claim": "北大FLIC2024必修目录含中国文化走出去实践课，并要求制作5个采编视频作品。",
+      "status": "课程说明明确",
+      "source_ids": [
+        "pku-flic24"
+      ],
+      "boundary": "作品数量按2024简章课程说明记录。"
+    },
+    {
+      "id": "C07",
+      "claim": "人民网该次招聘的记者、外语编辑与数据工程师要求不同；Python/Java在工程师条目为优先项。",
+      "status": "岗位分类整理",
+      "source_ids": [
+        "people-jobs25"
+      ],
+      "boundary": "按该启事各岗位任职资格分别编码。"
+    },
+    {
+      "id": "C08",
+      "claim": "人民日报社该次招聘按最高学历对应专业把握专业条件。",
+      "status": "公告明确",
+      "source_ids": [
+        "people-daily25"
+      ],
+      "boundary": "适用公告：人民日报社2025年应届生招聘。"
+    },
+    {
+      "id": "C09",
+      "claim": "北大FLIC2024及2025简章总学分30与列示分项合计28不一致。",
+      "status": "原文数字差异",
+      "source_ids": [
+        "pku-flic24",
+        "pku-flic25"
+      ],
+      "boundary": "分别保存简章总学分与分项合计。"
+    },
+    {
+      "id": "C10",
+      "claim": "兴趣、职业规划与专业体验如何影响学生的跨学科学习选择？",
+      "status": "研究问题",
+      "source_ids": [],
+      "boundary": "研究问题：学生选择跨学科学习的动机。"
+    }
+  ],
+  "interviews": [],
+  "counts": {
+    "sources": 16,
+    "programs": 9,
+    "flows": 4,
+    "curricula": 43,
+    "jobs": 4,
+    "costs": 5,
+    "claims": 10,
+    "interviews": 0
+  }
+}

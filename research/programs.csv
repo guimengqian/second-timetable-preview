@@ -1,0 +1,10 @@
+﻿id,school,year,name,kind,direction,source_ids,entry_cohort,plan_count,plan_approximate,credential,credit_waiver_max,extra_tuition_yuan,actual_participants,status,honor_credits,eligibility,stated_total_credits,required_course_credits,elective_selected_credits,research_credits,practice_credits,component_sum,credit_issue,travel_living_insurance,scholarship,withdrawal,double_degree,degree_min_credits,certificate_min_credits,degree_gpa_min,elective_catalog_credits,thesis_credits,fee_per_credit_yuan,schedule,credit_recognition,degree_note,end_rule
+pku-finance-2024,北京大学,2024,国际传播与国际金融,联合培养,out,"[""pku""]",2023,15,True,跨学科联合培养项目证书,38,0,,,,,,,,,,,,,,,,,,,,,,,,,
+thu-news-2023,清华大学,2023,新闻学辅修,辅修学位,in,"[""thu""]",,,,新闻学辅修学位,,,,,,,,,,,,,,,,,,,,,,,,,,,
+bnu-ai-2024,北京师范大学,2024,传播学+人工智能,双学士项目,cross,"[""bnu""]",,,,双学士学位项目,,,,获批,,,,,,,,,,,,,,,,,,,,,,,
+cuc-computational-2024,中国传媒大学,2024,传播学（智能与计算传播方向）,专业方向,cross,"[""cuc""]",,,,主修专业方向,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ruc-open-2025,中国人民大学,2025,开放专业模块与荣誉辅修,自主辅修,open,"[""ruc""]",,,,荣誉辅修,,,,,15,,,,,,,,,,,,,,,,,,,,,,
+pku-flic-2024,北京大学,2024,外国语言与国际传播,荣誉证书项目,in,"[""pku-flic24""]",2023,20,False,联合项目荣誉证书,,,,,,外国语学院本年级；本专业前50%（含）；未参加双学位学习,30,14,10,2,2,28,简章总学分30；分项合计28,,,,,,,,,,,,,,
+pku-flic-2025,北京大学,2025,外国语言与国际传播,荣誉证书项目,in,"[""pku-flic25""]",2024,20,False,联合项目荣誉证书,,,,,,外国语学院本年级；本专业前50%（含）；未参加双学位学习,30,14,10,2,2,28,简章总学分30；分项合计28,,,,,,,,,,,,,,
+pku-finance-2025,北京大学,2025,国际传播与国际金融,联合培养,out,"[""pku-finance25""]",2024,15,True,跨学科联合培养项目证书,38,0,,,,新传一年级及元培新闻传播方向；联合选拔,,,,,,,,自理；金额未披露,设专项奖学金；金额未披露,入选后不可中途退出,不能同时修读双学位,,,,,,,,,,
+cuc-news-2025,中国传媒大学,2025,新闻学辅修,辅修学位/证书,in,"[""cuc-minor-notice25"", ""cuc-minor25""]",,150,False,辅修学士学位或专业证书（有不同条件）,,,,,,校内全日制本科；已修必修课全部及格；主修非新闻传播学类,,16,,,,,,,,,,40,25,2.0,19,5,130,主要周末；部分周三或周五晚间,可认定为主修通识教育拓展课组学分,在主修学位证书中注明；不单独发放学位证书；双学士学生仅可获专业证书,主修学业结束，辅修同时结束
