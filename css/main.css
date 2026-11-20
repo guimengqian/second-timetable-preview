@@ -316,8 +316,6 @@ body.is-light .tip b { color: #111; }
 .refs a { color: #4f7385; }
 .credits p { margin: 0 0 4px; }
 .credits .small { font-size: 12px; color: #888; margin-top: 10px; }
-.totop { text-align: center; margin-top: 40px; }
-.totop a { color: #4f7385; }
 
 /* ---------------------------------------------------------------- 窄屏 */
 @media (max-width: 1100px) {
@@ -365,13 +363,32 @@ body.is-light .tip b { color: #111; }
   .fade, .phone-lines p, .bubble, .stair-cards article, .ch-title, mark { transition: none !important; }
 }
 
-/* 署名水印 */
+/* 署名水印：固定在右下角 */
 .sig {
-  font-family: var(--hand); letter-spacing: .32em; pointer-events: none; user-select: none;
-  color: rgba(232,237,241,.32); font-size: 15px;
+  position: fixed; right: 26px; bottom: 16px; z-index: 45;
+  font-family: var(--hand); font-size: 14px; letter-spacing: .28em;
+  color: rgba(232,237,241,.26); transform: rotate(-4deg); transform-origin: right bottom;
+  pointer-events: none; user-select: none; transition: color .6s;
 }
-.sig-top { position: absolute; top: calc(100vh - 46px); right: 34px; z-index: 30; transform: rotate(-3deg); }
-.sig-top::before { content: ""; display: inline-block; width: 26px; height: 1px; background: currentColor; vertical-align: middle; margin-right: 10px; }
-.sig-bottom { text-align: center; padding: 10px 0 46px; background: var(--paper); color: rgba(20,34,50,.32); font-size: 17px; }
-.sig-bottom span { display: inline-block; transform: rotate(-2deg); }
-.credits .team { font-size: 18px; color: #142232; letter-spacing: .2em; }
+.sig::before { content: ""; display: inline-block; width: 18px; height: 1px; margin-right: 8px; vertical-align: middle; background: currentColor; }
+body.is-light .sig { color: rgba(20,34,50,.24); }
+@media (max-width: 1100px) { .sig { bottom: 70px; right: 14px; font-size: 12px; } }
+
+/* 制作团队 */
+.credits { text-align: center; margin: 80px 0 10px; }
+.credits-label { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 0 26px; font-size: 13px; letter-spacing: .5em; color: #7a8a96; }
+.credits-label::before, .credits-label::after { content: ""; width: 64px; height: 1px; background: linear-gradient(90deg, transparent, #b9c4cc); }
+.credits-label::after { transform: scaleX(-1); }
+.credits-label span { padding-left: .5em; }
+.team { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
+.team li { font-family: var(--hand); font-size: 34px; color: #142232; letter-spacing: .12em; padding: 0 22px; position: relative; }
+.team li + li::before { content: ""; position: absolute; left: -3px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: var(--coral); opacity: .75; }
+.credits-date { margin: 18px 0 0; font-size: 12px; letter-spacing: .4em; color: #9aa6ae; }
+a.totop {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 46px; padding: 8px 20px 8px 10px;
+  border: 1px solid #d6dbdf; border-radius: 999px; font-size: 13px; color: #4f7385; text-decoration: none; letter-spacing: .15em;
+  transition: all .25s;
+}
+a.totop span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #142232; color: #fff; font-size: 13px; letter-spacing: 0; }
+a.totop:hover { border-color: #142232; color: #142232; transform: translateY(-2px); }
+@media (max-width: 760px) { .team li { font-size: 28px; padding: 0 14px; } }
