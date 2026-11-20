@@ -55,8 +55,8 @@
   // ------------------------------------------------------------ 中传16个专业
   function cut16(el, D) {
     const g = D.cuc_cut16;
-    const groups = g.groups.map(([name, how, items]) => ({ name, how, items, kind: 'cut' }))
-      .concat([{ name: '另一端：新增', how: '2024年度教育部备案 / 审批', items: g.added, kind: 'add' }]);
+    const groups = g.groups.map(([name, how, items, n]) => ({ name, how, items, n, kind: 'cut' }))
+      .concat([{ name: '另一端：新增', how: '2024年度教育部备案 / 审批', items: g.added, n: g.added.length, kind: 'add' }]);
     const W = 640, cw = 116, ch = 40, gap = 8, cols = 5;
     let y = 0;
     const rows = groups.map(gr => { const r = { ...gr, y }; y += 44 + Math.ceil(gr.items.length / cols) * (ch + gap) + 18; return r; });
@@ -65,7 +65,7 @@
     const colors = ['#c96b6b', '#a65a5a', '#d58e86', C.blue];
     rows.forEach((gr, gi) => {
       const G = svg.append('g').attr('transform', `translate(0,${gr.y})`);
-      G.append('text').attr('x', 0).attr('y', 22).attr('fill', C.chalk).attr('font-size', 30).attr('font-weight', 700).text(gr.items.length);
+      G.append('text').attr('x', 0).attr('y', 22).attr('fill', C.chalk).attr('font-size', 30).attr('font-weight', 700).text(gr.n);
       G.append('text').attr('x', 44).attr('y', 14).attr('fill', C.chalk).attr('font-size', 15).text(gr.name);
       G.append('text').attr('x', 44).attr('y', 33).attr('fill', C.blue).attr('font-size', 12).text(gr.how);
       gr.items.forEach((it, i) => {

@@ -273,7 +273,7 @@ def make_phone():
     t = text(110, 145, "新闻推送", 26, CHALK, weight=700)
     items = [
         ("1", "中传“砍掉”16个专业", CORAL),
-        ("2", "“双一流”高校学科调整信号", CHALK),
+        ("2", "党委书记：“不必惊慌”", CHALK),
         ("3", "AI时代的学科“新陈代谢”", CHALK),
         ("4", "彻底重构课堂？", CHALK),
     ]
@@ -282,7 +282,7 @@ def make_phone():
         t += text(112, y, n, 26, col, weight=700)
         t += text(146, y, s, 23, col)
         g += pen.line((110, y + 26), (410, y + 26), w=1, op=0.35, passes=1)
-    t += text(112, 560, "3月9日  周一  23:47", 20, BLUE)
+    t += text(112, 560, "3月11日  周三  23:47", 20, BLUE)
     body = f'<g filter="url(#chalk)">{g}</g>{t}'
     svg("phone.svg", W, H, body)
 
